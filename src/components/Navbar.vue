@@ -1,6 +1,6 @@
 <template>
   <nav>
-   <v-app-bar app dark dense color="blue darken-1">
+   <v-app-bar app dark flat dense color="blue darken-1">
 
       <v-app-bar-nav-icon  @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       
@@ -22,39 +22,45 @@
 
       <v-spacer></v-spacer>
 
-       <v-btn 
-            rounded 
-            small 
-            outlined 
-            dense
-            color="white" 
-            class="mr-2 text-lowercase"
-            @click="logout"
-        >
-            {{ capitalize("log out") }}
-       </v-btn>
+        <v-menu offset-y button>
+            <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on">
+                    <v-icon>more_horiz</v-icon>
+                </v-btn>
+            </template>
+            <v-list dense>
+                <v-subheader>Options</v-subheader>
+                <v-list-item-group>
+                      <v-list-item>
+                        <v-list-item-icon>
+                            <v-icon>account_box</v-icon>
+                        </v-list-item-icon>
 
+                        <v-list-item-content>
+                            <v-list-item-title>Settings</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-divider></v-divider>
+                    <v-list-item @click="logout">
+                        <v-list-item-icon>
+                            <v-icon>power_settings_new</v-icon>
+                        </v-list-item-icon>
+
+                        <v-list-item-content>
+                            <v-list-item-title>Logout</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>
+        </v-menu>
     </v-app-bar>
     
     <v-navigation-drawer
         absolute
         temporary
         v-model="drawer"
+        style="position: fixed;"
         >
-        <!-- <v-list-item>
-            <v-list-item-avatar>
-                <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_oLh-lBWDZkLGJkA9txG8r0DGFr5IkgRBmTpRKfIyH-15m82V&usqp=CAU"></v-img>
-            </v-list-item-avatar>
-
-             <v-list-item-content>
-                <v-list-item-title class="subtitle-2" style="position: relative; top: 4px;">Joshua Galit</v-list-item-title>
-                <v-list-item-subtitle class="caption" style="position: relative; bottom: 4px;">@angryboy</v-list-item-subtitle>
-            </v-list-item-content>
-
-           
-        </v-list-item>
-
-        <v-divider></v-divider> -->
 
         <side-bar />
 
