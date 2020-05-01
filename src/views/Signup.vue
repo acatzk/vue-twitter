@@ -81,6 +81,7 @@
 import { fb } from '@/firebase'
 import { SIGNUP_USER_MUTATION } from '@/graphql/mutations/signup'
 import Alert from '@/components/Alert'
+import { nanoid } from 'nanoid'
 
 export default {
     name: 'SignUp',
@@ -122,25 +123,32 @@ export default {
                     const { firstname, lastname, username, email, password } = this.$data
                     let user = fb.auth().currentUser;
 
-                    this.$apollo.mutate({
-                        mutation: SIGNUP_USER_MUTATION,
-                        variables: {
-                            id: user.uid,
-                            firstname,
-                            lastname,
-                            username,
-                            email,
-                            password
-                        }
-                    }).then(() => { 
-                        this.loading = false
-                        this.$router.replace('/')
-                    })
-                    .catch(error => { 
-                        this.loading = false
-                        this.error = error
-                    })
-                    
+                      this.$apollo.mutate({
+                            mutation: SIGNUP_USER_MUTATION,
+                            variables: {
+                                id: user.uid,
+                                firstname,
+                                lastname,
+                                username,
+                                email,
+                                password
+                            }
+                        }).then(() => { 
+                            this.loading = false
+                            this.$router.replace('/')
+                        })
+                        .catch(error => { 
+                            this.loading = false
+                            let errorCode = error.code;
+                            let errorMessage = error.message;
+                            if (errorCode) {
+                                return this.error = errorCode
+                            } else if (errorMessage) {
+                                this.error = errorMessage
+                            } else {
+                                return this.error = error
+                            }
+                        })
                 })
                 .catch(error => {
                     this.loading = false

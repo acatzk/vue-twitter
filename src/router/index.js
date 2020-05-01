@@ -18,7 +18,7 @@ const routes = [
     children: [
       {
         path: '', 
-        component: () => import('@/components/PostCard.vue')
+        component: () => import('@/views/home/UserPosts.vue')
       },
       {
         path: 'explore',
