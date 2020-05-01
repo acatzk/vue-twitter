@@ -32,6 +32,7 @@
                         :loading="loading"
                         text
                         :disabled="tweet == ''"
+                        @click="postUser"
                     >
                     Tweet
                     </v-btn> 
@@ -45,13 +46,40 @@
 </template>
 
 <script>
+
+import { TWEET_POST_MUTATION } from '@/graphql/mutations/tweetPost'
+import { fb } from '@/firebase'
+
 export default {
     name: 'AddPost',
+    
+
 
     data() {
         return {
+            user_id: fb.auth().currentUser,
             tweet: '',
+            imageSource: '',
             loading: false
+        }
+    },
+
+    methods: {
+        postUser() {
+            this.loading = true
+            const  { tweet, imageSource, user_id } = this.$data
+            this.$apollo.mutate({
+                mutation: TWEET_POST_MUTATION,
+                variables: {
+                    user_id: user_id.uid,
+                    imageUrl: imageSource,
+                    caption: tweet,
+                },
+                refetchQueries: ['getAllPosts']
+            }).then(() => {
+                this.loading = false
+                this.tweet = ''
+            }).catch(error => console.log(error))
         }
     }
 }
