@@ -15,7 +15,7 @@
             </v-card-text>
 
             <v-card-text>
-                <alert v-show="error" :error="error" class="mx-5"/>
+            <alert v-show="error" :error="error" class="mx-5"/>
             <v-container>
                 <v-row>
                     <v-col cols="12" sm="6" md="6">

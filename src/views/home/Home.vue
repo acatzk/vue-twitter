@@ -12,7 +12,7 @@
              </div>
              <router-view /> <!--  Dynamic content -->
            </v-col>
-           <v-col cols="12" md="3">
+           <v-col cols="12" md="3" class="hidden-sm-and-down">
               <side-news /> <!--  Side news -->
            </v-col>
         </v-row>

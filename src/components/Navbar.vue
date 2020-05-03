@@ -33,7 +33,7 @@
                 <v-list-item-group>
                       <v-list-item>
                         <v-list-item-icon>
-                            <v-icon>account_box</v-icon>
+                            <v-icon>settings</v-icon>
                         </v-list-item-icon>
 
                         <v-list-item-content>
@@ -61,8 +61,8 @@
         v-model="drawer"
         style="position: fixed;"
         >
-
-        <side-bar />
+ 
+        <side-bar/>
 
         <template v-slot:append>
             <v-btn block text>
@@ -116,7 +116,8 @@ export default {
         logout() {
             fb.auth().signOut()
                 .then(() => {
-                this.$router.replace('/login')
+                    location.reload()
+                    // this.$router.replace('/login')
                 })
                 .catch(error => console.log(error))
         },

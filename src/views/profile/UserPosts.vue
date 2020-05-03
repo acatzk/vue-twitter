@@ -9,7 +9,6 @@
             <v-card  
                 class="mx-auto mb-2"
                 flat
-                outlined
                 hover
                 style="text-decoration: none;"
                 router :to="`/posts/${post.id}`"
@@ -80,7 +79,7 @@
 
 <script>
 
-import { GET_ALL_POSTS } from '@/graphql/queries/getAllPosts'
+import { GET_USER_POSTS } from '@/graphql/queries/getUserPosts'
 import Spinner from '@/components/Spinner.vue'
 
 
@@ -93,7 +92,12 @@ export default {
 
     apollo: {
         posts: {
-            query: GET_ALL_POSTS
+            query: GET_USER_POSTS,
+            variables() {
+                return {
+                    user_id: this.$route.params.id
+                }
+            }
         }
     },
 

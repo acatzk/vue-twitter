@@ -5,9 +5,9 @@
    >
 
     <v-list-item>
-        <v-list-item-avatar color="grey">
+        <v-list-item-avatar color="grey" >
             <v-img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_oLh-lBWDZkLGJkA9txG8r0DGFr5IkgRBmTpRKfIyH-15m82V&usqp=CAU"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU"
             ></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
@@ -17,6 +17,7 @@
                     class="title textarea"
                     color="grey"
                     label="What's happening?"
+                     auto-grow
                     rows="1"
                     flat
                     solo
@@ -24,18 +25,19 @@
                 >
             </v-textarea>
                 </v-col>
-                <v-col cols="3">
-                    <v-btn 
-                        dark 
-                        rounded 
-                        class="blue"
-                        :loading="loading"
-                        text
-                        :disabled="tweet == ''"
-                        @click="postUser"
-                    >
-                    Tweet
-                    </v-btn> 
+                    <v-col cols="3">
+                        <v-btn 
+                            dark 
+                            rounded 
+                            class="blue"
+                            small
+                            :loading="loading"
+                            text
+                            :disabled="tweet == ''"
+                            @click="postUser"
+                        >
+                        Tweet
+                        </v-btn> 
                 </v-col>
             </v-row>
 

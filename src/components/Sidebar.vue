@@ -1,80 +1,81 @@
 <template>
    <div>
-    <v-list-item>
-        <v-list-item-avatar>
-            <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_oLh-lBWDZkLGJkA9txG8r0DGFr5IkgRBmTpRKfIyH-15m82V&usqp=CAU"></v-img>
-        </v-list-item-avatar>
-        
-        <router-link 
-            v-for="(user, index) in users" :key="index"
-            :to="`/profile/${user.id}`" 
-            style="text-decoration: none;"
-        >
-            <v-list-item-content>
-                <v-list-item-title class="subtitle-2" style="position: relative; top: 4px;">
-                    {{capitalize(`${user.firstname}`) + " " + capitalize(`${user.lastname}`)}}
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-lowercase caption" style="position: relative; bottom: 4px;">
-                    @{{`${user.username}`}}
-                </v-list-item-subtitle>
-            </v-list-item-content>
-        </router-link>
-        <!-- 
-        <v-list-item-avatar>
-            <v-btn icon @click="drawer = !drawer">
-                <v-icon>keyboard_arrow_left</v-icon>
-            </v-btn>
-        </v-list-item-avatar> -->
-
-    </v-list-item>
-
-    <v-divider></v-divider>
-    <v-list dense>
-        <div v-for="item in links" :key="item.title">
-
-            <v-list-item v-if="!item.subLinks" link router :to="item.to">
-                <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
-                </v-list-item-icon>
-
-                <v-list-item-content>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-                    
-            <v-menu offset-x button v-else>
-                <template v-slot:activator="{ on }">
-                    <v-list-item link v-on="on">
-                        <v-list-item-icon >
-                            <v-icon>{{ item.icon }}</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </template>
-                <v-list dense>
-                    <v-subheader>Options</v-subheader>
-                    <v-list-item-group v-model="model" color="blue darken-1">
-                        <div v-for="(sub, i) in item.subLinks" :key="i">
-                            <v-list-item>
-                                <v-list-item-icon>
-                                    <v-icon>{{ sub.icon }}</v-icon>
-                                </v-list-item-icon>
-
-                                <v-list-item-content>
-                                    <v-list-item-title>{{ sub.text }}</v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </div>
-                    </v-list-item-group>
-                </v-list>
-            </v-menu>
+        <div class="text-center" v-if="$apollo.loading">
+            <spinner />
         </div>
-    
+        <v-list-item v-else>
+            <router-link 
+                v-for="(user, index) in users" :key="index"
+                :to="`/profile/${user.id}`" 
+                style="text-decoration: none;"
+                class="d-flex"
+            >
+                <v-list-item-avatar>
+                    <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU"></v-img>
+                </v-list-item-avatar>
+            
+                <v-list-item-content>
+                    <v-list-item-title class="subtitle-2" style="position: relative; top: 4px;">
+                        {{capitalize(`${user.firstname}`) + " " + capitalize(`${user.lastname}`)}}
+                    </v-list-item-title>
+                    <v-list-item-subtitle class="text-lowercase caption" style="position: relative; bottom: 4px;">
+                        @{{`${user.username}`}}
+                    </v-list-item-subtitle>
+                </v-list-item-content>
+            </router-link>
+            
+        </v-list-item>
 
-        <v-btn dark color="blue darken-1" width="90%" class="ml-3 mt-3">Tweet</v-btn>
-    </v-list>
+        <v-divider></v-divider>
+        <v-list dense>
+            <div v-for="item in links" :key="item.title">
+
+                <v-list-item v-if="!item.subLinks" link router 
+                    :to="item.title === 'Profile' ? `/profile/${user_id ? user_id.uid : ''}` : item.to"
+                    color="blue darken-1"
+                >
+                    <v-list-item-icon>
+                        <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                        
+                <v-menu offset-x button v-else>
+                    <template v-slot:activator="{ on }">
+                        <v-list-item link v-on="on">
+                            <v-list-item-icon >
+                                <v-icon>{{ item.icon }}</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </template>
+                    <v-list dense>
+                        <v-subheader>Options</v-subheader>
+                        <v-list-item-group v-model="model" color="blue darken-1">
+                            <div v-for="(sub, i) in item.subLinks" :key="i">
+                                <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>{{ sub.icon }}</v-icon>
+                                    </v-list-item-icon>
+
+                                    <v-list-item-content>
+                                        <v-list-item-title>{{ sub.text }}</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </div>
+                        </v-list-item-group>
+                    </v-list>
+                </v-menu>
+            </div>
+        
+
+            <v-btn dark color="blue darken-1" width="90%" class="ml-3 mt-3">Tweet</v-btn>
+        </v-list>
    </div>
 </template>
 
@@ -83,12 +84,14 @@
 import { fb } from '@/firebase'
 import { GET_CURRENT_USER_QUERY } from '@/graphql/queries/getCurrentUser'
 import SkeletonLoader from '@/components/Skeleton-Loader'
+import Spinner from './Spinner'
 
 export default {
     name: 'Sidebar',
 
     components: {
-        SkeletonLoader
+        SkeletonLoader,
+        Spinner
     },
 
      data() {
@@ -102,10 +105,10 @@ export default {
                 { title: 'Messages', icon: 'mail_outline', to: '/messages' },
                 { title: 'Bookmarks', icon: 'bookmark_border', to: '/bookmarks' },
                 { title: 'Lists', icon: 'list', to: '/lists' },                         
-                { title: 'Profile', icon: 'perm_identity', to: `/profile/:id` },
+                { title: 'Profile', icon: 'perm_identity', to: `/profile` },
                 { title: 'More', icon: 'more_horiz',
                     subLinks: [
-                        { text: 'Settings', icon: 'perm_identity', to: "/settings" },
+                        { text: 'Settings', icon: 'settings', to: "/settings" },
                         { text: 'Logout', icon: 'power_settings_new' }
                     ] 
                 }

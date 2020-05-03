@@ -6,11 +6,6 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '*',
-    name: 'not-found',
-    component: () => import('@/components/NotFound.vue')
-  },
-  {
     path: '/',
     name: 'home',
     component: () => import('@/views/home/Home.vue'),
