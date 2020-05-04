@@ -14,6 +14,10 @@ query getUserPosts($user_id: String!) {
         firstname
         lastname
         username
+        profile {
+          id
+          avatarUrl
+        }
       }
     }
   }  

@@ -11,7 +11,7 @@
                 class="d-flex"
             >
                 <v-list-item-avatar>
-                    <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU"></v-img>
+                    <v-img :src="user.profile ? user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'"></v-img>
                 </v-list-item-avatar>
             
                 <v-list-item-content>

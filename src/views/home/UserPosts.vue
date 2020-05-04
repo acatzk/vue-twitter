@@ -19,7 +19,7 @@
                 <router-link :to="`/profile/${post.user.id}`" class="d-flex" style="text-decoration: none;">
                     <v-list-item-avatar color="grey" >
                         <v-img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU"
+                            :src="post.user.profile ? post.user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'"
                         ></v-img>
                     </v-list-item-avatar>
 
@@ -33,7 +33,7 @@
                             <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none; color: grey;">
                                 @{{`${post.user.username}`}}
                             </router-link>
-                            <v-icon small class="mr-2">public</v-icon>
+                            <v-icon small class="mr-1">public</v-icon>
                             <timeago :datetime="post.created_at" :auto-update="60"></timeago>
                         </v-list-item-subtitle>
                     </v-list-item-content>

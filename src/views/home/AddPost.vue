@@ -5,9 +5,9 @@
    >
 
     <v-list-item>
-        <v-list-item-avatar color="grey" >
+        <v-list-item-avatar color="grey" v-for="(user, index) in users" :key="index">
             <v-img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU"
+               :src="user.profile ? user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'"
             ></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
@@ -51,6 +51,7 @@
 
 import { TWEET_POST_MUTATION } from '@/graphql/mutations/tweetPost'
 import { fb } from '@/firebase'
+import { GET_CURRENT_USER_QUERY } from '@/graphql/queries/getCurrentUser'
 
 export default {
     name: 'AddPost',
@@ -83,6 +84,17 @@ export default {
                 this.tweet = ''
             }).catch(error => console.log(error))
         }
-    }
+    },
+
+    apollo: {
+        users: {
+            query: GET_CURRENT_USER_QUERY,
+            variables() {
+                return {
+                    id: this.user_id ? this.user_id.uid : ''
+                }
+            }
+        }
+    },
 }
 </script>

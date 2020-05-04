@@ -23,7 +23,7 @@
                 size="110" 
                 style="position: relative; bottom: 60px; left: 25px; border: 3px solid #fff;">
                 <v-img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU"
+                    :src="user.profile ? user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'"
                 ></v-img>
             </v-avatar>
 

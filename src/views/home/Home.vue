@@ -27,7 +27,7 @@
 import Navbar from '@/components/Navbar'
 import SideNews from '@/components/SideNews'
 import SideBar from '@/components/Sidebar'
-import AddPost from '@/components/AddPost'
+import AddPost from './AddPost'
 
 export default { 
   name: 'Home',

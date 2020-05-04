@@ -29,7 +29,7 @@
                     >
                         <router-link :to="`/profile/${user.id}`">
                             <v-list-item-avatar>
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU">
+                                <img :src="user.profile ? user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'">
                             </v-list-item-avatar>
                         </router-link>
 

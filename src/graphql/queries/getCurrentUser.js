@@ -9,6 +9,10 @@ query getUser ($id: String!) {
       email
       username
       password
+      profile {
+        id
+        avatarUrl
+      }
     }
   }  
 `
