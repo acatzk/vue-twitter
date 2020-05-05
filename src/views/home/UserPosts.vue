@@ -19,7 +19,7 @@
                 <router-link :to="`/profile/${post.user.id}`" class="d-flex" style="text-decoration: none;">
                     <v-list-item-avatar color="grey" >
                         <v-img
-                            :src="post.user.profile ? post.user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'"
+                            :src="userProfile(post)"
                         ></v-img>
                     </v-list-item-avatar>
 
@@ -101,7 +101,18 @@ export default {
          capitalize(s) {
             if (typeof s !== 'string') return ''
             return s.charAt(0).toUpperCase() + s.slice(1)
-        }
+        },
+        userProfile(post) {
+            if (post.user.profile) {
+                if (post.user.profile.avatarUrl !== '') {
+                    return post.user.profile.avatarUrl
+                } else {
+                    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+                }
+            } else {
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+            }
+        },
     },
 }
 </script>

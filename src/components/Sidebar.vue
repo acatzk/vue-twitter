@@ -11,7 +11,7 @@
                 class="d-flex"
             >
                 <v-list-item-avatar>
-                    <v-img :src="user.profile ? user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'"></v-img>
+                    <v-img :src="userProfile(user)"></v-img>
                 </v-list-item-avatar>
             
                 <v-list-item-content>
@@ -83,14 +83,12 @@
 
 import { fb } from '@/firebase'
 import { GET_CURRENT_USER_QUERY } from '@/graphql/queries/getCurrentUser'
-import SkeletonLoader from '@/components/Skeleton-Loader'
 import Spinner from './Spinner'
 
 export default {
     name: 'Sidebar',
 
     components: {
-        SkeletonLoader,
         Spinner
     },
 
@@ -117,6 +115,17 @@ export default {
     },
 
     methods: {
+         userProfile(user) {
+            if (user.profile) {
+                if (user.profile.avatarUrl !== '') {
+                    return user.profile.avatarUrl
+                } else {
+                    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+                }
+            } else {
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+            }
+        },
          capitalize(s) {
             if (typeof s !== 'string') return ''
             return s.charAt(0).toUpperCase() + s.slice(1)

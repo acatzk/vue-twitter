@@ -23,7 +23,7 @@
                 size="110" 
                 style="position: relative; bottom: 60px; left: 25px; border: 3px solid #fff;">
                 <v-img
-                    :src="user.profile ? user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'"
+                    :src="userProfile(user)"
                 ></v-img>
             </v-avatar>
 
@@ -110,7 +110,7 @@
                                         dark
                                         color="blue"
                                         :loading="loading"
-                                        @click="saveProfileInfo"
+                                        @click="saveProfileInfo(user)"
                                     >
                                     Save
                                 </v-btn>
@@ -119,26 +119,35 @@
                         </v-card-title>
                         <v-divider></v-divider>
                         <v-card-text style="height: 450px;">
+                            <v-img
+                                style="background-color: grey;"
+                                src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+                                height="130"
+                            ></v-img>
                             <v-container>
                                 <v-row>
+                                    <v-col cols="12">
+                                        <v-avatar 
+                                            size="110" 
+                                            style="position: relative; bottom: 60px; left: 25px; border: 3px solid #fff;">
+                                            <v-img
+                                                :src="userProfile(user)"
+                                            ></v-img>
+                                        </v-avatar>
+                                    </v-col>
                                     <v-col cols="12" sm="6" md="6">
                                         <v-text-field 
                                             label="Firstname" 
                                             counter=25
-                                            v-model="profile.firstname"
-                                            :hint="user.firstname"
-                                            persistent-hint
+                                            v-model="user.firstname"
                                         >
                                         </v-text-field>
-                                        <!-- <input type="hidden" > -->
                                     </v-col>
                                     <v-col cols="12" sm="6" md="6">
                                         <v-text-field 
                                             label="Lastname" 
-                                            v-model="profile.lastname"
+                                            v-model="user.lastname"
                                             counter=25
-                                            :hint="user.lastname"
-                                            persistent-hint
                                         >
                                         </v-text-field>
                                     </v-col>
@@ -147,52 +156,42 @@
                                             auto-grow
                                             rows="1"
                                             label="Bio"
-                                            v-model="profile.bio"
-                                            :hint="user.profile ? user.profile.bio : ''"
-                                            persistent-hint
+                                            v-model="user.profile.bio"
                                             counter=160>
                                         </v-textarea>
                                     </v-col> 
                                     <v-col cols="12">
                                         <v-text-field 
                                             label="Location" 
-                                            v-model="profile.location"
-                                            :hint="user.profile ? user.profile.location : ''"
-                                            persistent-hint
+                                            v-model="user.profile.location"
                                             counter=200
                                         ></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-text-field 
                                             label="Website" 
-                                            v-model="profile.website"
-                                            :hint="user.profile ? user.profile.website : ''"
-                                            persistent-hint
+                                            v-model="user.profile.website"
                                             counter=100
                                         ></v-text-field>
                                     </v-col>
                                     <v-col cols="12" >
                                         <v-text-field 
                                             label="Birth Date" 
-                                            v-model="profile.birthdate"
-                                            :hint="user.profile ? user.profile.birthdate : ''"
-                                            persistent-hint
+                                            v-model="user.profile.birthdate"
                                         ></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-text-field 
                                             label="Profile URL" 
-                                            v-model="profile.avatarUrl"
-                                            :hint="user.profile ? user.profile.avatarUrl : ''"
-                                            persistent-hint
+                                            v-model="user.profile.avatarUrl"
                                         ></v-text-field>
-                                        <input type="hidden" :value="user.profile ? profile.profile_id = user.profile.id : ''">
                                     </v-col>
                                 </v-row>
                              </v-container>
                         </v-card-text>
                     </v-card>
                 </v-dialog>
+                <!-- END EDIT PROFILE -->
 
             </div>
             <!-- BIO -->
@@ -206,20 +205,32 @@
             
             <!-- USER INFO -->
             <div  
-                class="subtitle-2 font-weight-regular d-flex" 
-                style="position: relative; bottom: 80px; left: 10px; color: grey;"
+                class="caption font-weight-regular d-flex mx-3" 
+                style="position: relative; bottom: 80px; color: grey;"
             >
+                <!-- User Website -->
+                <div 
+                    class="mr-2 website" 
+                    v-show="userWebsite(user)"
+                >
+                    <v-icon>link</v-icon> 
+                    <a 
+                        :href="user.profile ? user.profile.website : ''" 
+                        target="_blank" style="text-decoration: none;">
+                        {{ user.profile ? user.profile.website : '' }}
+                    </a>
+                </div>
                 <!-- User Location -->
                 <div 
                     class="mr-2" 
-                    v-show="user.profile"
+                    v-show="userLocation(user)"
                 >
                     <v-icon>location_on</v-icon> {{ user.profile ? capitalize(user.profile.location) : '' }}
                 </div>
                 <!-- Birthdate -->
                 <div 
                     class="mr-2" 
-                    v-show="user.profile"
+                    v-show="userBirthdate(user)"
                 >
                     <v-icon>search</v-icon> {{ user.profile ? capitalize(user.profile.birthdate) : '' }}
                 </div>
@@ -296,6 +307,7 @@ import {
         UPDATE_USER_PROFILE_MUTATION 
     } from '@/graphql/mutations/updateUserProfile'
 import UserPosts from './UserPosts'
+// import VTextArea from '@/components/VTextArea'
 
 export default {
     name: 'PostCard',
@@ -303,6 +315,7 @@ export default {
     components: {
         Spinner,
         UserPosts
+        // VTextArea
     },
 
     data() {
@@ -312,14 +325,7 @@ export default {
             profileDialog: false,
             loading: false,
             profile: {
-                profile_id: '',
-                firstname: '',
-                lastname: '',
-                bio: '',
-                location: '',
-                website: '',
-                birthdate: '',
-                avatarUrl: ''
+                profile_id: ''
             },
             tab: null,
             items: [
@@ -332,11 +338,57 @@ export default {
     },
 
     methods: {
+        userWebsite(user) {
+             if (user.profile) {
+                if (user.profile.website !== '') {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+        },
+        userLocation(user) {
+            if (user.profile) {
+                if (user.profile.location !== '') {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+        },
+
+        userBirthdate(user) {
+            if (user.profile) {
+                if (user.profile.birthdate !== '') {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+        },
+        
+        userProfile(user) {
+            if (user.profile) {
+                if (user.profile.avatarUrl !== '') {
+                    return user.profile.avatarUrl
+                } else {
+                    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+                }
+            } else {
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+            }
+        },
          capitalize(word) {
             if (typeof word !== 'string') return ''
             return word.charAt(0).toUpperCase() + word.slice(1)
         },
-        saveProfileInfo() {
+        saveProfileInfo(user) {
             this.loading = true
 
             
@@ -344,28 +396,28 @@ export default {
             this.$apollo.mutate({
                 mutation: UPDATE_USER_FULLNAME_MUTATION,
                 variables: {
-                    id: this.user_id,
-                    firstname: this.profile.firstname,
-                    lastname: this.profile.lastname
+                    id: user.id,
+                    firstname: user.firstname,
+                    lastname: user.lastname
                 },
                 refetchQueries: ['getUserProfile', 'getUser']
             })
 
             // end update user fullname
 
-            if (this.profile.profile_id === '') {
+            if (user.profile.user_id === '') {
                 // alert("The profile ID is null")
                 
                 //profile insert
                 this.$apollo.mutate({
                     mutation: INSERT_USER_PROFILE_MUTATION,
                     variables: {
-                        user_id: this.user_id,
-                        bio: this.profile.bio,
-                        avatarUrl: this.profile.avatarUrl,
-                        website: this.profile.website,
-                        birthdate: this.profile.birthdate,
-                        location: this.profile.location
+                        user_id: user.id,
+                        bio: user.profile.bio,
+                        avatarUrl: user.profile.avatarUrl,
+                        website: user.profile.website,
+                        birthdate: user.profile.birthdate,
+                        location: user.profile.location
                     },
                     refetchQueries: ['getUserProfile', 'getUser']
                 }).then(() => {
@@ -380,12 +432,12 @@ export default {
                 this.$apollo.mutate({
                     mutation: UPDATE_USER_PROFILE_MUTATION,
                     variables: {
-                        user_id: this.user_id,
-                        bio: this.profile.bio,
-                        avatarUrl: this.profile.avatarUrl,
-                        website: this.profile.website,
-                        birthdate: this.profile.birthdate,
-                        location: this.profile.location
+                        user_id: user.id,
+                        bio: user.profile.bio,
+                        avatarUrl: user.profile.avatarUrl,
+                        website: user.profile.website,
+                        birthdate: user.profile.birthdate,
+                        location: user.profile.location
                     },
                     refetchQueries: ['getUserProfile', 'getUser']
                 }).then(() => {
@@ -413,7 +465,7 @@ export default {
 </script>
 
 <style scoped>
-.follow a:hover{
+.follow a:hover, .website a:hover{
     text-decoration: underline !important;
 }
 .v-tab {

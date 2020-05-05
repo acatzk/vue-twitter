@@ -7,7 +7,7 @@
     <v-list-item>
         <v-list-item-avatar color="grey" v-for="(user, index) in users" :key="index">
             <v-img
-               :src="user.profile ? user.profile.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'"
+               :src="userProfile(user)"
             ></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
@@ -78,12 +78,23 @@ export default {
                     imageUrl: imageSource,
                     caption: tweet,
                 },
-                refetchQueries: ['getAllPosts']
+                refetchQueries: ['getAllPosts', 'getUser', 'getUserPosts']
             }).then(() => {
                 this.loading = false
                 this.tweet = ''
             }).catch(error => console.log(error))
-        }
+        },
+        userProfile(user) {
+            if (user.profile) {
+                if (user.profile.avatarUrl !== '') {
+                    return user.profile.avatarUrl
+                } else {
+                    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+                }
+            } else {
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+            }
+        },
     },
 
     apollo: {
