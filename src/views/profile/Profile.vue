@@ -103,7 +103,7 @@
                                 <div class="font-weight-black" style="position: absolute; margin-left: 45px;">
                                     Edit Profile
                                 </div>
-                                <!-- style="position: relative; left: 350px;" -->
+
                                 <div class="float-left">
                                     <v-btn 
                                         rounded
@@ -118,24 +118,38 @@
                             </v-row>
                         </v-card-title>
                         <v-divider></v-divider>
-                        <v-card-text style="height: 450px;">
-                            <v-img
-                                style="background-color: grey;"
-                                src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
-                                height="130"
-                            ></v-img>
+                        <v-card-text style="height: 400px;">
                             <v-container>
                                 <v-row>
                                     <v-col cols="12">
+                                          <v-tooltip bottom>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-img
+                                                        v-on="on"
+                                                        style="background-color: grey;"
+                                                        src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+                                                        height="130"
+                                                        class="profile-image"
+                                                    ></v-img>
+                                                        </template>
+                                                <span>Change Cover Photo</span>
+                                            </v-tooltip>
                                         <v-avatar 
                                             size="110" 
-                                            style="position: relative; bottom: 60px; left: 25px; border: 3px solid #fff;">
-                                            <v-img
-                                                :src="userProfile(user)"
-                                            ></v-img>
+                                            style="position: relative; bottom: 70px; left: 25px; border: 3px solid #fff;">
+                                            <v-tooltip bottom>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-img
+                                                        v-on="on"
+                                                        :src="userProfile(user)"
+                                                        class="profile-image"
+                                                    ></v-img>
+                                                </template>
+                                                <span>Change Profile</span>
+                                            </v-tooltip>
                                         </v-avatar>
                                     </v-col>
-                                    <v-col cols="12" sm="6" md="6">
+                                    <v-col cols="12" sm="6" md="6" class="text-field-area">
                                         <v-text-field 
                                             label="Firstname" 
                                             counter=25
@@ -143,7 +157,7 @@
                                         >
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12" sm="6" md="6">
+                                    <v-col cols="12" sm="6" md="6" class="text-field-area">
                                         <v-text-field 
                                             label="Lastname" 
                                             v-model="user.lastname"
@@ -151,7 +165,8 @@
                                         >
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="12" class="text-field-area">
+                                        <!--   v-model="user.profile.bio" -->
                                         <v-textarea
                                             auto-grow
                                             rows="1"
@@ -160,27 +175,27 @@
                                             counter=160>
                                         </v-textarea>
                                     </v-col> 
-                                    <v-col cols="12">
+                                    <v-col cols="12" class="text-field-area">
                                         <v-text-field 
                                             label="Location" 
-                                            v-model="user.profile.location"
                                             counter=200
+                                            v-model="user.profile.location"
                                         ></v-text-field>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="12" class="text-field-area">
                                         <v-text-field 
                                             label="Website" 
-                                            v-model="user.profile.website"
                                             counter=100
+                                            v-model="user.profile.website"
                                         ></v-text-field>
                                     </v-col>
-                                    <v-col cols="12" >
+                                    <v-col cols="12" class="text-field-area">
                                         <v-text-field 
                                             label="Birth Date" 
                                             v-model="user.profile.birthdate"
                                         ></v-text-field>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="12" class="text-field-area">
                                         <v-text-field 
                                             label="Profile URL" 
                                             v-model="user.profile.avatarUrl"
@@ -324,18 +339,18 @@ export default {
             current_id: fb.auth().currentUser,
             profileDialog: false,
             loading: false,
-            profile: {
-                profile_id: ''
-            },
             tab: null,
             items: [
                 { tab: 'Tweets', content: 'Tab 1 Content' },
                 { tab: 'Tweets & replies', content: 'Tab 2 Content' },
                 { tab: 'Media', content: 'Tab 3 Content' },
                 { tab: 'Likes', content: 'Tab 3 Content' },
-            ]
+            ],
+            selectedFile: null,
+            isSelecting: false
         }
     },
+
 
     methods: {
         userWebsite(user) {
@@ -388,6 +403,7 @@ export default {
             if (typeof word !== 'string') return ''
             return word.charAt(0).toUpperCase() + word.slice(1)
         },
+
         saveProfileInfo(user) {
             this.loading = true
 
@@ -402,51 +418,25 @@ export default {
                 },
                 refetchQueries: ['getUserProfile', 'getUser']
             })
-
             // end update user fullname
 
-            if (user.profile.user_id === '') {
-                // alert("The profile ID is null")
-                
-                //profile insert
-                this.$apollo.mutate({
-                    mutation: INSERT_USER_PROFILE_MUTATION,
-                    variables: {
-                        user_id: user.id,
-                        bio: user.profile.bio,
-                        avatarUrl: user.profile.avatarUrl,
-                        website: user.profile.website,
-                        birthdate: user.profile.birthdate,
-                        location: user.profile.location
-                    },
-                    refetchQueries: ['getUserProfile', 'getUser']
-                }).then(() => {
-                    this.profileDialog = false
-                    this.loading = false
-                }).catch(error => console.log(error))
-                // end insert profile
-
-            } else {
-                
-                // profile update
-                this.$apollo.mutate({
-                    mutation: UPDATE_USER_PROFILE_MUTATION,
-                    variables: {
-                        user_id: user.id,
-                        bio: user.profile.bio,
-                        avatarUrl: user.profile.avatarUrl,
-                        website: user.profile.website,
-                        birthdate: user.profile.birthdate,
-                        location: user.profile.location
-                    },
-                    refetchQueries: ['getUserProfile', 'getUser']
-                }).then(() => {
-                    this.profileDialog = false
-                    this.loading = false
-                }).catch(error => console.log(error))
-                // end profile update
-
-            }         
+            // profile update
+            this.$apollo.mutate({
+                mutation: UPDATE_USER_PROFILE_MUTATION,
+                variables: {
+                    user_id: user.id,
+                    bio: user.profile.bio,
+                    avatarUrl: user.profile.avatarUrl,
+                    website: user.profile.website,
+                    birthdate: user.profile.birthdate,
+                    location: user.profile.location
+                },
+                refetchQueries: ['getUserProfile', 'getUser']
+            }).then(() => {
+                this.profileDialog = false
+                this.loading = false
+            }).catch(error => console.log(error))
+            // end profile update
 
         }
     },
@@ -475,5 +465,14 @@ export default {
 .v-btn {
     text-transform: none !important;
 }
+.text-field-area {
+    position: relative;
+    bottom: 75px;
+}
 
+.profile-image:hover {
+    cursor: pointer;
+    opacity: 0.9;
+    transition: 0.3s;
+}
 </style>
