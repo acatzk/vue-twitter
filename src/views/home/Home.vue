@@ -8,7 +8,7 @@
            </v-col>
            <v-col cols="12" md="6">
              <div v-if="this.$route.path == '/'">
-                <add-post />  <!--  Add Posts components -->
+                <tweet-post />  <!--  Add Posts components -->
              </div>
              <router-view /> <!--  Dynamic content -->
            </v-col>
@@ -27,7 +27,7 @@
 import Navbar from '@/components/Navbar'
 import SideNews from '@/components/SideNews'
 import SideBar from '@/components/Sidebar'
-import AddPost from './AddPost'
+import TweetPost from './TweetPost'
 
 export default { 
   name: 'Home',
@@ -35,7 +35,7 @@ export default {
     Navbar,
     SideNews,
     SideBar,
-    AddPost
+    TweetPost
   }
 }
 </script>
