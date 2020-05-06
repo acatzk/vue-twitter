@@ -65,8 +65,11 @@
                     dark
                     color="blue" 
                     class="mx-3"
+                    depressed
+                    :loading="loading"
+                    @click="followUser(user)"
                 >
-                   {{ capitalize('follow') }} 
+                   {{ follow ? 'Unfollow' : 'Follow' }}
                 </v-btn>
             </div>
 
@@ -109,6 +112,7 @@
                                         rounded
                                         dark
                                         color="blue"
+                                        depressed
                                         :loading="loading"
                                         @click="saveProfileInfo(user)"
                                     >
@@ -131,7 +135,7 @@
                                                         height="130"
                                                         class="profile-image"
                                                     ></v-img>
-                                                        </template>
+                                                </template>
                                                 <span>Change Cover Photo</span>
                                             </v-tooltip>
                                         <v-avatar 
@@ -144,6 +148,14 @@
                                                         :src="userProfile(user)"
                                                         class="profile-image"
                                                     ></v-img>
+                                                    <v-btn
+                                                        class="camera-action" 
+                                                        icon 
+                                                        color="white darken-3" 
+                                                        dark style="position: absolute;"
+                                                    >
+                                                        <v-icon>camera_enhance</v-icon>
+                                                    </v-btn>
                                                 </template>
                                                 <span>Change Profile</span>
                                             </v-tooltip>
@@ -192,6 +204,7 @@
                                     <v-col cols="12" class="text-field-area">
                                         <v-text-field 
                                             label="Birth Date" 
+                                            type="date"
                                             v-model="user.profile.birthdate"
                                         ></v-text-field>
                                     </v-col>
@@ -199,6 +212,8 @@
                                         <v-text-field 
                                             label="Profile URL" 
                                             v-model="user.profile.avatarUrl"
+                                            hint="Paste your Profile URL (it's on development)"
+                                            persistent-hint
                                         ></v-text-field>
                                     </v-col>
                                 </v-row>
@@ -313,24 +328,18 @@
 <script>
 
 import { fb } from '@/firebase'
-
 import { GET_USER_PROFILE_QUERY } from '@/graphql/queries/getUserProfile'
-import Spinner from '@/components/Spinner.vue'
-import { 
-        UPDATE_USER_FULLNAME_MUTATION, 
-        INSERT_USER_PROFILE_MUTATION, 
-        UPDATE_USER_PROFILE_MUTATION 
-    } from '@/graphql/mutations/updateUserProfile'
+import { UPDATE_USER_FULLNAME_MUTATION, UPDATE_USER_PROFILE_MUTATION } from '@/graphql/mutations/updateUserProfile'
+import { FOLLOW_USER_MUTATION, DELETE_FOLLOW_USER_MUTATION, GET_FOLLOW_USER } from '@/graphql/mutations/followUser'
 import UserPosts from './UserPosts'
-// import VTextArea from '@/components/VTextArea'
+
 
 export default {
     name: 'PostCard',
 
     components: {
-        Spinner,
+        Spinner: () => import('@/components/Spinner.vue'),
         UserPosts
-        // VTextArea
     },
 
     data() {
@@ -346,13 +355,12 @@ export default {
                 { tab: 'Media', content: 'Tab 3 Content' },
                 { tab: 'Likes', content: 'Tab 3 Content' },
             ],
-            selectedFile: null,
-            isSelecting: false
+            follow: false
         }
     },
 
-
     methods: {
+        // User Website Show Detials
         userWebsite(user) {
              if (user.profile) {
                 if (user.profile.website !== '') {
@@ -364,6 +372,7 @@ export default {
                 return false
             }
         },
+        // User Location Show Details
         userLocation(user) {
             if (user.profile) {
                 if (user.profile.location !== '') {
@@ -375,7 +384,7 @@ export default {
                 return false
             }
         },
-
+        // User Birthdate Show Details
         userBirthdate(user) {
             if (user.profile) {
                 if (user.profile.birthdate !== '') {
@@ -387,7 +396,7 @@ export default {
                 return false
             }
         },
-        
+        // User Proile Show Detials
         userProfile(user) {
             if (user.profile) {
                 if (user.profile.avatarUrl !== '') {
@@ -399,11 +408,12 @@ export default {
                 return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
             }
         },
-         capitalize(word) {
+        //  Capital first letter of Text
+        capitalize(word) {
             if (typeof word !== 'string') return ''
             return word.charAt(0).toUpperCase() + word.slice(1)
         },
-
+        // Update User Info Details
         saveProfileInfo(user) {
             this.loading = true
 
@@ -416,12 +426,6 @@ export default {
                     firstname: user.firstname,
                     lastname: user.lastname
                 },
-                refetchQueries: ['getUserProfile', 'getUser']
-            })
-            // end update user fullname
-
-            // profile update
-            this.$apollo.mutate({
                 mutation: UPDATE_USER_PROFILE_MUTATION,
                 variables: {
                     user_id: user.id,
@@ -431,17 +435,52 @@ export default {
                     birthdate: user.profile.birthdate,
                     location: user.profile.location
                 },
-                refetchQueries: ['getUserProfile', 'getUser']
+                refetchQueries: ['getUserProfile', 'getUser'],
             }).then(() => {
                 this.profileDialog = false
                 this.loading = false
             }).catch(error => console.log(error))
-            // end profile update
+            // end update user fullname
 
+        },
+        // FOllow User
+        followUser(user) {
+            this.follow = !this.follow
+            alert("User ID: " + user.id)
+            // if (!this.follow) {
+            //     this.loading = true
+            //     this.$apollo.mutate({
+            //         mutation: FOLLOW_USER_MUTATION,
+            //         variables: {
+            //             user_id: this.user_id,
+            //             follower_id: this.current_id.uid
+            //         },
+            //         refetchQueries: ['getFollowStatus']
+            //     }).then(() => {
+            //         this.follow = !this.follow
+            //         this.loading = false
+            //     }).catch(error => console.log(error))
+            // } else {
+            //     this.loading = true
+            //     this.$apollo.mutate({
+            //         mutation: DELETE_FOLLOW_USER_MUTATION,
+            //         variables: {
+            //             user_id: this.user_id,
+            //             follower_id: this.current_id.uid
+            //         },
+            //         refetchQueries: ['getFollowStatus']
+            //     }).then(() => {
+            //         this.follow = !this.follow
+            //         this.loading = false
+            //     }).catch(error => console.log(error))
+            // }
+            
         }
+
     },
 
     apollo: {
+        // Get user data where id = this.user_id
         users: {
             query: GET_USER_PROFILE_QUERY,
             variables() {
@@ -449,12 +488,22 @@ export default {
                     id: this.user_id ? this.$route.params.id : this.user_id
                 }
             }
-        }
+        },
+        // follow: {
+        //     query: GET_FOLLOW_USER,
+        //     variables() {
+        //         return {
+        //             user_id:  this.user_id ? this.$route.params.id : this.user_id,
+        //             follower_id: this.current_id.uid
+        //         }
+        //     }
+        // }
     }
 }
 </script>
 
-<style scoped>
+
+<style scoped lang="scss">
 .follow a:hover, .website a:hover{
     text-decoration: underline !important;
 }
@@ -471,8 +520,8 @@ export default {
 }
 
 .profile-image:hover {
-    cursor: pointer;
-    opacity: 0.9;
-    transition: 0.3s;
+    // opacity: 0.9;
+    transition: 0.3s; 
 }
+
 </style>

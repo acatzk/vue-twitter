@@ -58,7 +58,16 @@
                         <v-subheader>Options</v-subheader>
                         <v-list-item-group v-model="model" color="blue darken-1">
                             <div v-for="(sub, i) in item.subLinks" :key="i">
-                                <v-list-item>
+                                <v-list-item v-if="sub.text == 'Logout'" @click="logout">
+                                    <v-list-item-icon>
+                                        <v-icon>{{ sub.icon }}</v-icon>
+                                    </v-list-item-icon>
+
+                                    <v-list-item-content>
+                                        <v-list-item-title>{{ sub.text }}</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                 <v-list-item v-else>
                                     <v-list-item-icon>
                                         <v-icon>{{ sub.icon }}</v-icon>
                                     </v-list-item-icon>
@@ -129,7 +138,15 @@ export default {
          capitalize(s) {
             if (typeof s !== 'string') return ''
             return s.charAt(0).toUpperCase() + s.slice(1)
-        }
+        },
+        logout() {
+            fb.auth().signOut()
+                .then(() => {
+                    location.reload()
+                    // this.$router.replace('/login')
+                })
+                .catch(error => console.log(error))
+        },
     },
 
 

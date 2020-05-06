@@ -6,26 +6,25 @@
         </div>
          <v-card
                 v-else
-                style="position: fixed;"
+                style="position: fixed; max-height: 550px"
                 outlined
+                class="overflow-y-auto"
             >
                 <v-img
-                class="white--text align-end"
-                height="200px"
-                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    class="white--text align-end"
+                    height="200px"
+                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
                 >
                 </v-img>
 
                 <v-card-text class="text--primary">
-                    <div class="subtitle-1">Follow Users</div>
+                    <div class="subtitle-1">Suggested user to follow</div>
                 </v-card-text>
-
 
 
                 <template>
                     <v-list-item 
                         v-for="(user, index) in users" :key="index" link
-                        class="d-flex"
                     >
                         <router-link :to="`/profile/${user.id}`">
                             <v-list-item-avatar>

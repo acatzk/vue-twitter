@@ -11,15 +11,3 @@ mutation ($id: String!, $firstname: String!, $lastname: String!, $username: Stri
     }
   }  
 `
-// export const SIGNUP_PROFILE_MUTATION = gql`
-// mutation ($id: String!) {
-//   insert_profile(objects: [{id: $id}]) {
-//     returning {
-//       id
-//       bio
-//       website
-//       avatarUrl
-//     }
-//   }
-// }
-// `

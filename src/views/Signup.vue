@@ -68,6 +68,7 @@
                     @click="signupUser" 
                     :disabled="!valid"
                     :loading="loading"
+                    depressed
                 >Signup</v-btn>
             </v-card-actions>
         </v-form>
@@ -79,10 +80,10 @@
 <script>
 
 import { fb } from '@/firebase'
-import { SIGNUP_USER_MUTATION } from '@/graphql/mutations/signup'
 import Alert from '@/components/Alert'
 import { nanoid } from 'nanoid'
 import { INSERT_USER_PROFILE_MUTATION } from '@/graphql/mutations/updateUserProfile'
+import { SIGNUP_USER_MUTATION } from '@/graphql/mutations/signup'
 
 export default {
     name: 'SignUp',
@@ -124,20 +125,6 @@ export default {
                     const { firstname, lastname, username, email, password } = this.$data
                     let user = fb.auth().currentUser;
 
-                    //profile insert
-                    this.$apollo.mutate({
-                        mutation: INSERT_USER_PROFILE_MUTATION,
-                        variables: {
-                            user_id: user.uid,
-                            bio: '',
-                            avatarUrl: '',
-                            website: '',
-                            birthdate: '',
-                            location: ''
-                        }
-                    })
-                    // end insert profile
-
                     this.$apollo.mutate({
                         mutation: SIGNUP_USER_MUTATION,
                         variables: {
@@ -149,34 +136,54 @@ export default {
                             password
                         }
                     }).then(() => { 
-                        this.loading = false
-                        this.$router.replace('/')
+                        //profile insert
+                        this.$apollo.mutate({
+                            mutation: INSERT_USER_PROFILE_MUTATION,
+                            variables: {
+                                user_id: user.uid,
+                                bio: '',
+                                avatarUrl: '',
+                                website: '',
+                                birthdate: '',
+                                location: ''
+                            }
+                        }).then(() => {
+                            this.loading = false
+                            this.$router.replace('/')   
+                        }).catch(error => {
+                            this.loading = false
+                            let errorCode = error.code;
+                            let errorMessage = error.message;
+                            if (errorCode) {
+                                return this.error = errorCode
+                            } else if (errorMessage) {
+                                this.error = errorMessage
+                            } else {
+                                return this.error = error
+                            }
+                        })
+                        // end insert profile
                     })
                     .catch(error => { 
-                        this.loading = false
-                        let errorCode = error.code;
-                        let errorMessage = error.message;
-                        if (errorCode) {
-                            return this.error = errorCode
-                        } else if (errorMessage) {
-                            this.error = errorMessage
-                        } else {
-                            return this.error = error
-                        }
+                        this.errorProvider(error)
                     })
                 })
                 .catch(error => {
-                    this.loading = false
-                    let errorCode = error.code;
-                    let errorMessage = error.message;
-                    if (errorCode) {
-                        this.error = errorCode
-                    } else if (errorMessage) {
-                        this.error = errorMessage
-                    } else {
-                        this.error = error
-                    }
+                    this.errorProvider(error)
                 })
+        },
+
+        errorProvider(error) {
+            this.loading = false
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            if (errorCode) {
+                return this.error = errorCode
+            } else if (errorMessage) {
+                return this.error = errorMessage
+            } else {
+                return this.error = error
+            }
         }
     }
 

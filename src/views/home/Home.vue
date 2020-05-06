@@ -24,18 +24,13 @@
 
 <script>
 
-import Navbar from '@/components/Navbar'
-import SideNews from '@/components/SideNews'
-import SideBar from '@/components/Sidebar'
-import TweetPost from './TweetPost'
-
 export default { 
   name: 'Home',
   components: {
-    Navbar,
-    SideNews,
-    SideBar,
-    TweetPost
+    Navbar: () => import('@/components/Navbar'),
+    SideNews: () => import('@/components/SideNews'),
+    SideBar: () => import('@/components/Sidebar'),
+    TweetPost: () => import('./TweetPost')
   }
 }
 </script>

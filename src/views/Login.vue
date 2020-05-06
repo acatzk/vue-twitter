@@ -21,14 +21,12 @@
                 <v-text-field
                     v-model="email"
                     label="Phone, email, or username"
-                    required
                     :rules="[required('Email')]"
                 ></v-text-field>
 
                 <v-text-field
-                    v-model="password"
+                    v-model="password" 
                     label="Password"
-                    required
                     type="password"
                     :rules="[required('password')]"
                 ></v-text-field>
@@ -37,6 +35,7 @@
                     rounded 
                     small 
                     dark
+                    depressed
                     color="blue" 
                     width="100%"
                     height="50px"
@@ -93,17 +92,20 @@ export default {
                     this.$router.replace('/')
                 })
                 .catch(error =>  {
-                    this.loading = false
-                    let errorCode = error.code;
-                    let errorMessage = error.message;
-                    if (errorCode) {
-                        this.error = errorCode
-                    } else if (errorMessage) {
-                        this.error = errorMessage
-                    } else {
-                        this.error = error
-                    }
+                    this.errorProvider(error)
                 })
+        },
+        errorProvider(error) {
+            this.loading = false
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            if (errorCode) {
+                return this.error = errorCode
+            } else if (errorMessage) {
+                return this.error = errorMessage
+            } else {
+                return this.error = error
+            }
         }
     },
 }
