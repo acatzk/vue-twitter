@@ -59,7 +59,6 @@
                 <!-- <v-btn class="ml-3" outlined fab dark small color="primary">
                     <v-icon dark>notifications_none</v-icon>
                 </v-btn> -->
-
                 <v-btn 
                     rounded 
                     dark
@@ -69,17 +68,17 @@
                     :loading="loading"
                     @click="followUser(user)"
                 >
-                   {{ follow ? 'Unfollow' : 'Follow' }}
+                    <!-- {{ followStatus ? 'Unfollow' : 'Follow'  }} -->
+                    {{ followStatus ? 'Unfollow' : 'Follow' }}
                 </v-btn>
             </div>
-
 
             <!-- Edit Profile -->
             <div v-else
                 class="text-right" 
                 style="position: relative; bottom: 150px;"
             >
-        
+            
               <v-dialog v-model="profileDialog" scrollable max-width="600px">
                     <template v-slot:activator="{ on }">
                          <v-btn 
@@ -298,22 +297,22 @@
                 style="position: relative; bottom: 40px;"
             >
                 <v-tab
-                    v-for="item in items"
-                    :key="item.tab"
+                    v-for="tweet in tweetTabs"
+                    :key="tweet.tab"
                 >
-                    {{ item.tab }}
+                    {{ tweet.tab }}
                 </v-tab>
                 </v-tabs>
 
                 <v-tabs-items v-model="tab">
                 <v-tab-item
-                    v-for="item in items"
-                    :key="item.tab"
+                    v-for="tweet in tweetTabs"
+                    :key="tweet.tab"
                 >
                     <v-card 
                         flat 
                         style="position: relative; bottom: 40px;"
-                        v-if="item.tab == 'Tweets'"
+                        v-if="tweet.tab == 'Tweets'"
                     >
                         <user-posts class="mt-2"/>
                     </v-card>
@@ -344,18 +343,18 @@ export default {
 
     data() {
         return {
-            user_id: this.$route.params.id,
-            current_id: fb.auth().currentUser,
-            profileDialog: false,
+            user_id: this.$route.params.id, // user id parameter
+            current_id: fb.auth().currentUser, // current Authenticated User
+            profileDialog: false, // profile dialog for user authenticated
             loading: false,
             tab: null,
-            items: [
+            tweetTabs: [
                 { tab: 'Tweets', content: 'Tab 1 Content' },
                 { tab: 'Tweets & replies', content: 'Tab 2 Content' },
                 { tab: 'Media', content: 'Tab 3 Content' },
                 { tab: 'Likes', content: 'Tab 3 Content' },
             ],
-            follow: false
+            followStatus: false
         }
     },
 
@@ -445,42 +444,41 @@ export default {
         },
         // FOllow User
         followUser(user) {
-            this.follow = !this.follow
-            alert("User ID: " + user.id)
-            // if (!this.follow) {
+            // alert("Fullname " + user.firstname + " " + user.lastname)   
+            this.followStatus = !this.followStatus
+            // if (this.follow_user_id && this.current_id)
+            // {
             //     this.loading = true
             //     this.$apollo.mutate({
             //         mutation: FOLLOW_USER_MUTATION,
             //         variables: {
-            //             user_id: this.user_id,
+            //             user_id: user.id,
             //             follower_id: this.current_id.uid
             //         },
             //         refetchQueries: ['getFollowStatus']
             //     }).then(() => {
-            //         this.follow = !this.follow
             //         this.loading = false
             //     }).catch(error => console.log(error))
-            // } else {
+            // }
+            // else
+            // {
             //     this.loading = true
             //     this.$apollo.mutate({
             //         mutation: DELETE_FOLLOW_USER_MUTATION,
             //         variables: {
-            //             user_id: this.user_id,
+            //             user_id: user.id,
             //             follower_id: this.current_id.uid
             //         },
             //         refetchQueries: ['getFollowStatus']
             //     }).then(() => {
-            //         this.follow = !this.follow
             //         this.loading = false
             //     }).catch(error => console.log(error))
             // }
-            
         }
 
     },
 
     apollo: {
-        // Get user data where id = this.user_id
         users: {
             query: GET_USER_PROFILE_QUERY,
             variables() {
@@ -489,15 +487,15 @@ export default {
                 }
             }
         },
-        // follow: {
-        //     query: GET_FOLLOW_USER,
-        //     variables() {
-        //         return {
-        //             user_id:  this.user_id ? this.$route.params.id : this.user_id,
-        //             follower_id: this.current_id.uid
-        //         }
-        //     }
-        // }
+        follow: {
+            query: GET_FOLLOW_USER,
+            variables() {
+                return {
+                    user_id:  this.user_id ? this.$route.params.id : this.user_id,
+                    follower_id: this.current_id.uid
+                }
+            }
+        },
     }
 }
 </script>
@@ -518,10 +516,7 @@ export default {
     position: relative;
     bottom: 75px;
 }
-
 .profile-image:hover {
-    // opacity: 0.9;
     transition: 0.3s; 
 }
-
 </style>

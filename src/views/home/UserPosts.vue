@@ -12,7 +12,7 @@
                 outlined
                 hover
                 style="text-decoration: none;"
-                router :to="`/posts/${post.id}`"
+                router :to="`/post/${post.id}`"
             >
             <v-list-item>
 
