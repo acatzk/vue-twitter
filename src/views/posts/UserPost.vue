@@ -74,15 +74,17 @@
             <v-divider></v-divider>
             <!-- User COmment -->
             <v-card-actions >
-                <v-list-item-avatar 
-                    color="grey"  
-                    style="position: relative; left: 5px; bottom: 3px;"
-                    v-for="(user, index) in users" :key="index"
-                >
-                    <v-img
-                        :src="currentUserProfile(user)"
-                    ></v-img>
-                </v-list-item-avatar>
+                <router-link :to="`/profile/${auth_user_id.uid}`">
+                    <v-list-item-avatar 
+                        color="grey"  
+                        style="position: relative; left: 5px; bottom: 3px;"
+                        v-for="(user, index) in users" :key="index"
+                    >
+                        <v-img
+                            :src="currentUserProfile(user)"
+                        ></v-img>
+                    </v-list-item-avatar>
+                </router-link>
 
                 <v-list-item-content>
                     <v-list-item-title style="position: relative; top: 10px;">
@@ -105,51 +107,82 @@
             <v-divider></v-divider>
 
             <!-- Show User commented -->
-            <v-card-actions
-                v-for="(comment, index) in comments" :key="index"
-            >
-                <v-list-item-avatar 
-                    color="grey"  
-                    style="position: relative; left: 5px; bottom: 15px;"                
-                >
-                    <v-img
-                        :src="commentUserProfile(comment)"
-                    ></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content> 
-                    <v-list-item-title class="subtitle-2" style="position: relative; top: 4px;">
-                        <router-link :to="`/profile/${comment.user.id}`" style="text-decoration: none;">
-                            {{`${comment.user.firstname} ${comment.user.lastname}`}}
-                        </router-link>
-                    </v-list-item-title>
-                    <v-list-item-subtitle class="caption text-lowercase" style="position: relative; bottom: 4px;">
-                        Replying to
-                        <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none;">
-                            @{{`${post.user.username}`}}
-                        </router-link>
-                        <v-icon small class="mr-1">public</v-icon>
-                        <timeago :datetime="comment.created_at" :auto-update="60"></timeago>
-                    </v-list-item-subtitle>
-                    <v-list-item-subtitle class="font-weight-medium">
-                        {{ comment.message }}
-                    </v-list-item-subtitle>
-                    <v-row class="justify-space-around">
-                        <v-btn icon x-small>
-                            <v-icon>chat_bubble_outline</v-icon>
-                        </v-btn>
-                        <v-btn icon x-small>
-                            <v-icon>transform</v-icon>
-                        </v-btn>
-                        <v-btn icon x-small>
-                            <v-icon>mdi-heart-outline</v-icon>
-                        </v-btn>
-                        <v-btn icon x-small>
-                            <v-icon>keyboard_capslock</v-icon>
-                        </v-btn>
-                    </v-row>
-                </v-list-item-content>
-            </v-card-actions>
-            <v-divider></v-divider>
+            <div v-for="(comment, index) in comments" :key="index">
+                
+                <v-card-actions>
+                    
+                    <router-link :to="`/profile/${comment.user.id}`">
+                        <v-list-item-avatar 
+                            color="grey"  
+                            style="position: relative; left: 5px; bottom: 15px;"                
+                        >
+                            <v-img
+                                :src="commentUserProfile(comment)"
+                            ></v-img>
+                        </v-list-item-avatar>
+                    </router-link>
+
+                    <!-- <v-list-item-avatar            
+                    >
+                         <v-menu offset-y button> 
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on">
+                                    <v-icon>more_horiz</v-icon>
+                                </v-btn>
+                            </template>
+                            <v-list dense>
+                                <v-list-item-group color="blue darken-1">
+                                    <div>
+                                        <v-list-item>
+                                            <v-list-item-icon>
+                                                <v-icon>delete_outline</v-icon>
+                                            </v-list-item-icon>
+ 
+                                            <v-list-item-content>
+                                                <v-list-item-title>Delete</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </div>
+                                </v-list-item-group>
+                            </v-list>
+                        </v-menu>
+                    </v-list-item-avatar> -->
+                    
+                    <v-list-item-content> 
+                        <v-list-item-title class="subtitle-2" style="position: relative; top: 4px;">
+                            <router-link :to="`/profile/${comment.user.id}`" style="text-decoration: none;">
+                                {{`${comment.user.firstname} ${comment.user.lastname}`}}
+                            </router-link>
+                        </v-list-item-title>
+                        <v-list-item-subtitle class="caption text-lowercase" style="position: relative; bottom: 4px;">
+                            Replying to
+                            <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none;">
+                                @{{`${post.user.username}`}}
+                            </router-link>
+                            <v-icon small class="mr-1">public</v-icon>
+                            <timeago :datetime="comment.created_at" :auto-update="60"></timeago>
+                        </v-list-item-subtitle>
+                        <v-list-item-subtitle class="font-weight-medium">
+                            {{ comment.message }}
+                        </v-list-item-subtitle>
+                        <v-row class="justify-space-around">
+                            <v-btn icon x-small>
+                                <v-icon>chat_bubble_outline</v-icon>
+                            </v-btn>
+                            <v-btn icon x-small>
+                                <v-icon>transform</v-icon>
+                            </v-btn>
+                            <v-btn icon x-small>
+                                <v-icon>mdi-heart-outline</v-icon>
+                            </v-btn>
+                            <v-btn icon x-small>
+                                <v-icon>keyboard_capslock</v-icon>
+                            </v-btn>
+                        </v-row>
+                    </v-list-item-content>
+                </v-card-actions>
+                <v-divider></v-divider>
+            </div>
            <!-- END Show User commented -->
           </v-card>
         </div>
@@ -162,6 +195,7 @@ import { GET_SINGLE_USER_POST } from '@/graphql/queries/getSinglePost'
 import { GET_USER_POST_COMMENTS } from '@/graphql/queries/getUserPostComments'
 import { GET_CURRENT_USER_QUERY } from '@/graphql/queries/getCurrentUser'
 import { COMMENT_USER_MUTATION } from '@/graphql/mutations/commentUser'
+
 import { fb } from '@/firebase'
 import Spinner from '@/components/Spinner.vue'
 
@@ -171,7 +205,6 @@ export default {
     data() {
         return {
             auth_user_id: fb.auth().currentUser,
-            auth_user_profile: null,
             commentUser: '',
             loading: false
         }
@@ -207,7 +240,8 @@ export default {
                     post_id: this.$route.params.id
                 }
             }
-        }
+        },
+
     },
 
     methods: {

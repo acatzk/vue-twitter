@@ -416,7 +416,6 @@ export default {
         saveProfileInfo(user) {
             this.loading = true
 
-            
             // update user fullname
             this.$apollo.mutate({
                 mutation: UPDATE_USER_FULLNAME_MUTATION,
@@ -424,7 +423,11 @@ export default {
                     id: user.id,
                     firstname: user.firstname,
                     lastname: user.lastname
-                },
+                }
+            })
+            // end update user fullname
+
+            this.$apollo.mutate({
                 mutation: UPDATE_USER_PROFILE_MUTATION,
                 variables: {
                     user_id: user.id,
@@ -439,7 +442,6 @@ export default {
                 this.profileDialog = false
                 this.loading = false
             }).catch(error => console.log(error))
-            // end update user fullname
 
         },
         // FOllow User
