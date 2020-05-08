@@ -22,12 +22,12 @@
                     </v-list-item-avatar>
 
                     <v-list-item-content>
-                        <v-list-item-title class="subtitle-2" style="position: relative !important; top: 4px !important;">
+                        <v-list-item-title class="subtitle-2">
                             <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none;">
                                 {{ capitalize(`${post.user.firstname}`) + " " + capitalize(`${post.user.lastname}`) }}
                             </router-link>
                         </v-list-item-title>
-                        <v-list-item-subtitle class="caption text-lowercase" style="position: relative !important; bottom: 3px !important;">
+                        <v-list-item-subtitle class="caption text-lowercase">
                             <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none; color: grey;">
                                 @{{`${post.user.username}`}}
                             </router-link>
