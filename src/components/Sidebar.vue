@@ -15,10 +15,10 @@
                 </v-list-item-avatar>
             
                 <v-list-item-content>
-                    <v-list-item-title class="subtitle-2" style="position: relative !important; top: 4px !important;">
+                    <v-list-item-title class="subtitle-2" >
                         {{capitalize(`${user.firstname}`) + " " + capitalize(`${user.lastname}`)}}
                     </v-list-item-title>
-                    <v-list-item-subtitle class="text-lowercase caption" style="position: relative !important; bottom: 4px !important;">
+                    <v-list-item-subtitle class="text-lowercase caption">
                         @{{`${user.username}`}}
                     </v-list-item-subtitle>
                 </v-list-item-content>
