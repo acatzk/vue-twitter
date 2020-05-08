@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import { fb } from '@/firebase'
 
 Vue.use(VueRouter);
+// import 'nprogress/nprogress.css';
+import '../../node_modules/nprogress/nprogress.css';
 
 const routes = [
   {
