@@ -19,6 +19,11 @@ query getAllPosts {
         avatarUrl
       }
     }
+    comments_aggregate {
+      aggregate {
+        count
+      }
+    }
   }
 }
 `
