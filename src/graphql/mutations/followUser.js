@@ -31,13 +31,3 @@ mutation ($user_id: String!, $follower_id: String!) {
     }
   }  
 `
-
-export const GET_FOLLOW_USER = gql`
-query getFollowStatus($user_id: String!, $follower_id: String!) {
-    follow(where: {_and: [{user_id: {_eq: $user_id}, follower_id: {_eq: $follower_id}}]}) {
-      id
-      user_id
-      follower_id
-    }
-  }    
-`
