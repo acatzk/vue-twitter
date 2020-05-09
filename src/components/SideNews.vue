@@ -13,7 +13,7 @@
                 <v-img
                     class="white--text align-end"
                     height="200px"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    src="https://cdn3.vectorstock.com/i/1000x1000/85/52/cartoon-blue-bird-on-wire-vector-4988552.jpg"
                 >
                 </v-img>
 
@@ -42,7 +42,7 @@
                                 <router-link :to="`/profile/${user.id}`" style="text-decoration: none; color: grey;">
                                     @{{`${user.username}`}}
                                 </router-link>
-                                <v-btn 
+                                <!-- <v-btn 
                                     depressed
                                     x-small
                                     :class="follow ? 'follow ml-2' : 'ml-2'" 
@@ -52,7 +52,7 @@
                                     @click="followUser(user.id)"
                                 > 
                                     {{ follow ? capitalize('unfollow') : capitalize('follow') }}
-                                </v-btn>
+                                </v-btn> -->
                             </v-list-item-subtitle>
                            
                         </v-list-item-content>
