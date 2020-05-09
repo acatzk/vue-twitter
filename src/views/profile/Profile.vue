@@ -108,22 +108,22 @@
 
                                 <div class="float-left">
                                     <v-btn 
-                                        rounded
-                                        dark
-                                        color="blue"
-                                        depressed
-                                        :loading="loading"
-                                        @click="saveProfileInfo(user)"
-                                    >
-                                    Save
-                                </v-btn>
+                                            rounded
+                                            dark
+                                            color="blue"
+                                            depressed
+                                            :loading="loading"
+                                            @click="saveProfileInfo(user)"
+                                        >
+                                        Save
+                                    </v-btn>
                                 </div>
                             </v-row>
                         </v-card-title>
                         <v-divider></v-divider>
                         <v-card-text style="height: 400px;">
                             <!-- Show Data -->
-                            <edit-proile 
+                            <edit-profile 
                                 :user="user"
                             />
                             <!-- End Show Data -->
@@ -248,7 +248,7 @@ export default {
     components: {
         Spinner: () => import('@/components/Spinner.vue'),
         UserPosts: () => import('./UserPosts'),
-        EditProile: () => import('./EditProfile')
+        EditProfile: () => import('./EditProfile')
     },
 
     data() {
