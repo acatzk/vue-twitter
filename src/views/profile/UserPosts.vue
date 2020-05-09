@@ -59,6 +59,7 @@
                     <v-row class="justify-space-between">
                         <v-btn icon>
                             <v-icon>chat_bubble_outline</v-icon>
+                            {{ post.comments_aggregate.aggregate.count }}
                         </v-btn>
                         <v-btn icon>
                             <v-icon>transform</v-icon>

@@ -29,7 +29,7 @@
         </v-list-item>
 
         <v-divider></v-divider>
-        <v-list dense>
+        <v-list dense v-if="!$apollo.loading">
             <div v-for="item in links" :key="item.title">
 
                 <v-list-item v-if="!item.subLinks" link router 
@@ -85,7 +85,14 @@
             </div>
         
 
-            <v-btn dark color="blue darken-1" width="90%" class="ml-3 mt-3">Tweet</v-btn>
+            <v-btn 
+                dark 
+                color="blue darken-1" 
+                width="90%" 
+                class="ml-3 mt-3"
+                depressed
+                rounded
+            >Tweet</v-btn>
         </v-list>
    </div>
 </template>

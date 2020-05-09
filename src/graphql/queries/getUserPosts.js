@@ -19,6 +19,11 @@ query getUserPosts($user_id: String!) {
           avatarUrl
         }
       }
+      comments_aggregate(where: {user_id: {_eq: $user_id}}, order_by: {created_at: desc}) {
+        aggregate { 
+          count
+        }
+      }
     }
   }  
 `
