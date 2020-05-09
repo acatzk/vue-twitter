@@ -63,7 +63,7 @@
                     dark 
                     small 
                     color="primary"
-                    v-show="follow_aggregate.aggregate.count === 1"
+                    v-show="follower_status.aggregate.count === 1"
                 >
                     <v-icon dark>notifications_none</v-icon>
                 </v-btn>
@@ -76,7 +76,7 @@
                     depressed
                     :loading="loading"
                     @click="followUser(user)"
-                    v-show="follow_aggregate.aggregate.count === 0"
+                    v-show="follower_status.aggregate.count === 0"
                 >
                     <!-- {{ followStatus ? 'Unfollow' : 'Follow'  }} -->
                     <!-- {{ follow_aggregate.aggregate.count === 0 ? 'Follow' : 'Unfollow' }} -->
@@ -92,7 +92,7 @@
                     outlined
                     :loading="loading"
                     @click="followUser(user)"
-                    v-show="follow_aggregate.aggregate.count === 1"
+                    v-show="follower_status.aggregate.count === 1"
                 >
                     Unfollow
                 </v-btn>
@@ -210,9 +210,8 @@
                 style="position: relative; bottom: 64px; left: 15px; color: grey;">
                 <div class="mr-2 follow">
                     <a 
-                        
                         style="text-decoration: none; color: grey;">
-                        <b style="color: #000;">0</b> Following
+                        <b style="color: #000;">{{ following.aggregate.count }}</b> Following
                     </a>
                 </div>
                 <div class="follow">
@@ -220,10 +219,11 @@
                         
                         style="text-decoration: none; color: grey;"
                     >
-                        <b style="color: #000;">{{ user.follows_aggregate.aggregate.followers }}</b> Followers
+                    <!-- user.follows_aggregate.aggregate.followers -->
+                        <b style="color: #000;">{{ user.followers.aggregate.count }}</b> Followers
                     </a>
                 </div>
-            </div>
+            </div> 
 
             <!-- Tweet tabs -->
             <v-tabs
@@ -266,6 +266,7 @@ import { GET_USER_PROFILE_QUERY } from '@/graphql/queries/getUserProfile'
 import { UPDATE_USER_FULLNAME_MUTATION, UPDATE_USER_PROFILE_MUTATION } from '@/graphql/mutations/updateUserProfile'
 import { FOLLOW_USER_MUTATION, DELETE_FOLLOW_USER_MUTATION } from '@/graphql/mutations/followUser'
 import { GET_FOLLOWER_STATUS } from '@/graphql/queries/getFollowStatus'
+import { GET_USER_FOLLOWING } from '@/graphql/queries/getUserFollowing'
 
 export default {
     name: 'PostCard',
@@ -382,7 +383,7 @@ export default {
         },
         // FOllow User
         followUser(user) {
-            if (this. follow_aggregate.aggregate.count === 0) {
+            if (this.follower_status.aggregate.count === 0) {
                 this.loading = true
                 this.$apollo.mutate({
                     mutation: FOLLOW_USER_MUTATION,
@@ -390,7 +391,7 @@ export default {
                         user_id: user.id,
                         follower_id: this.current_id.uid
                     },
-                    refetchQueries: ['getFollowerStatus', 'getUserProfile']
+                    refetchQueries: ['getFollowerStatus', 'getUserProfile', 'getUserFollowing']
                 }).then(() => {
                     this.loading = false
                 }).catch(error => console.log(error))
@@ -402,7 +403,7 @@ export default {
                         user_id: user.id,
                         follower_id: this.current_id.uid
                     },
-                    refetchQueries: ['getFollowerStatus', 'getUserProfile']
+                    refetchQueries: ['getFollowerStatus', 'getUserProfile', 'getUserFollowing']
                 }).then(() => {
                     this.loading = false
                 }).catch(error => console.log(error))
@@ -420,7 +421,7 @@ export default {
                 }
             }
         },
-        follow_aggregate: {
+        follower_status: {
             query: GET_FOLLOWER_STATUS,
             variables() {
                 return {
@@ -429,6 +430,14 @@ export default {
                 }
             }
         },
+        following: {
+            query: GET_USER_FOLLOWING,
+            variables() {
+                return {
+                    id: this.user_id ? this.$route.params.id : this.user_id
+                }
+            }
+        }
     }
 }
 </script>

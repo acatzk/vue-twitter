@@ -18,11 +18,17 @@ query getUserProfile($id: String!) {
       birthdate
       location
     }
-    follows_aggregate {  
+    followers: follows_aggregate {
       aggregate {
-        followers: count
+        count
       }
     }
   }
-} 
+}
 `
+
+// following: follows_aggregate(where: {follower_id: {_eq: $id}}) {
+//   aggregate {
+//     count
+//   }
+// }
