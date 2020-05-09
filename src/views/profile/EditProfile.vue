@@ -37,7 +37,13 @@
                     </v-tooltip>
                 </v-avatar>
             </v-col>
-            <v-col cols="12" sm="6" md="6" class="text-field-area">
+            <v-col 
+                cols="12" 
+                sm="6" 
+                md="6" 
+                class="text-field-area"
+                style="position: relative; bottom: 70px;"
+            >
                 <v-text-field 
                     label="Firstname" 
                     counter=25
@@ -45,7 +51,13 @@
                 >
                 </v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="6" class="text-field-area">
+            <v-col 
+                cols="12" 
+                sm="6" 
+                md="6" 
+                class="text-field-area"
+                style="position: relative; bottom: 70px;"
+            >
                 <v-text-field 
                     label="Lastname" 
                     v-model="user.lastname"
@@ -53,7 +65,11 @@
                 >
                 </v-text-field>
             </v-col>
-            <v-col cols="12" class="text-field-area">
+            <v-col 
+                cols="12" 
+                class="text-field-area"
+                style="position: relative; bottom: 70px;"
+            >
                 <!--   v-model="user.profile.bio" -->
                 <v-textarea
                     auto-grow
@@ -63,28 +79,44 @@
                     counter=160>
                 </v-textarea>
             </v-col> 
-            <v-col cols="12" class="text-field-area">
+            <v-col 
+                cols="12" 
+                class="text-field-area"
+                style="position: relative; bottom: 70px;"
+            >
                 <v-text-field 
                     label="Location" 
                     counter=200
                     v-model="user.profile.location"
                 ></v-text-field>
             </v-col>
-            <v-col cols="12" class="text-field-area">
+            <v-col 
+                cols="12" 
+                class="text-field-area"
+                style="position: relative; bottom: 70px;"
+            >
                 <v-text-field 
                     label="Website" 
                     counter=100
                     v-model="user.profile.website"
                 ></v-text-field>
             </v-col>
-            <v-col cols="12" class="text-field-area">
+            <v-col 
+                cols="12" 
+                class="text-field-area"
+                style="position: relative; bottom: 70px;"
+            >
                 <v-text-field 
                     label="Birth Date" 
                     type="date"
                     v-model="user.profile.birthdate"
                 ></v-text-field>
             </v-col>
-            <v-col cols="12" class="text-field-area">
+            <v-col 
+                cols="12" 
+                class="text-field-area"
+                style="position: relative; bottom: 70px;"
+            >
                 <v-text-field 
                     label="Profile URL" 
                     v-model="user.profile.avatarUrl"
