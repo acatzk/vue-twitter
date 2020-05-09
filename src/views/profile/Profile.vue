@@ -209,14 +209,44 @@
                 class="d-flex subtitle-2 font-weight-regular" 
                 style="position: relative; bottom: 64px; left: 15px; color: grey;">
                 <div class="mr-2 follow">
-                    <a 
-                        style="text-decoration: none; color: grey;">
-                        <b style="color: #000;">{{ following.aggregate.count }}</b> Following
-                    </a>
+                    
+                    <v-dialog v-model="followingDialog" scrollable max-width="600px">
+                        <template v-slot:activator="{ on }">
+                            <a 
+                                v-on="on"
+                                style="text-decoration: none; color: grey;">
+                                <b style="color: #000;">{{ following.aggregate.count }}</b> Following
+                            </a>
+                        </template>
+                        <v-card style="border-radius: 15px;">
+                            <v-card-title>
+                                <v-row>
+                                    <v-btn 
+                                        icon 
+                                        color="blue" 
+                                        @click="followingDialog = false"
+                                    >
+                                        <v-icon>close</v-icon>
+                                    </v-btn>
+                                    <div class="font-weight-black" style="position: absolute; margin-left: 45px;">
+                                        Following
+                                    </div>
+                                </v-row>
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-card-text style="height: 400px;">
+                                <!-- Show Data -->
+                                 <show-following 
+                                    :showFollowing="showFollowing"
+                                 />
+                                <!-- End Show Data -->
+                            </v-card-text>
+                        </v-card>
+                    </v-dialog>
+
                 </div>
                 <div class="follow">
                     <a 
-                        
                         style="text-decoration: none; color: grey;"
                     >
                     <!-- user.follows_aggregate.aggregate.followers -->
@@ -266,7 +296,7 @@ import { GET_USER_PROFILE_QUERY } from '@/graphql/queries/getUserProfile'
 import { UPDATE_USER_FULLNAME_MUTATION, UPDATE_USER_PROFILE_MUTATION } from '@/graphql/mutations/updateUserProfile'
 import { FOLLOW_USER_MUTATION, DELETE_FOLLOW_USER_MUTATION } from '@/graphql/mutations/followUser'
 import { GET_FOLLOWER_STATUS } from '@/graphql/queries/getFollowStatus'
-import { GET_USER_FOLLOWING } from '@/graphql/queries/getUserFollowing'
+import { GET_USER_FOLLOWING, GET_ALL_FOLLOWING_USER } from '@/graphql/queries/getUserFollowing'
 
 export default {
     name: 'PostCard',
@@ -274,7 +304,8 @@ export default {
     components: {
         Spinner: () => import('@/components/Spinner.vue'),
         UserPosts: () => import('./UserPosts'),
-        EditProfile: () => import('./EditProfile')
+        EditProfile: () => import('./EditProfile'),
+        ShowFollowing: () => import('./ShowFollowing')
     },
 
     data() {
@@ -282,6 +313,8 @@ export default {
             user_id: this.$route.params.id, // user id parameter
             current_id: fb.auth().currentUser, // current Authenticated User
             profileDialog: false, // profile dialog for user authenticated
+            followersDialog: false,
+            followingDialog: false,
             loading: false,
             tab: null,
             tweetTabs: [
@@ -336,6 +369,18 @@ export default {
             if (user.profile) {
                 if (user.profile.avatarUrl !== '') {
                     return user.profile.avatarUrl
+                } else {
+                    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+                }
+            } else {
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+            }
+        },
+
+        showFollowerProfile(follower) {
+             if (follower.user.profile) {
+                if (follower.user.profile.avatarUrl !== '') {
+                    return follower.user.profile.avatarUrl
                 } else {
                     return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
                 }
@@ -421,6 +466,7 @@ export default {
                 }
             }
         },
+
         follower_status: {
             query: GET_FOLLOWER_STATUS,
             variables() {
@@ -430,11 +476,21 @@ export default {
                 }
             }
         },
+
         following: {
             query: GET_USER_FOLLOWING,
             variables() {
                 return {
                     id: this.user_id ? this.$route.params.id : this.user_id
+                }
+            }
+        },
+
+        showFollowing: {
+            query: GET_ALL_FOLLOWING_USER,
+            variables() {
+                return {
+                    follower_id: this.user_id ? this.$route.params.id : this.user_id
                 }
             }
         }
