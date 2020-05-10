@@ -7,7 +7,7 @@
                 style="position: relative; top: 80px;"
             >
                 <v-avatar class="avatar-logo">
-                    <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_oLh-lBWDZkLGJkA9txG8r0DGFr5IkgRBmTpRKfIyH-15m82V&usqp=CAU" width="10%"></v-img>
+                    <v-icon large color="blue">mdi-twitter</v-icon>
                 </v-avatar>
                
                 <v-card-text class="text--primary">
@@ -31,6 +31,7 @@
                     :append-icon="value ? 'visibility' : 'visibility_off'"
                     @click:append="() => (value = !value)"
                     :type="value ? 'password' : 'text'"
+                    @keyup.enter="loginUser"
                 ></v-text-field>
                 
                 <v-btn 

@@ -20,80 +20,74 @@
             </a>
         </template>
       <v-card>     
-        <v-form v-model="valid">
-            <v-avatar class="avatar-logo">
-                <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_oLh-lBWDZkLGJkA9txG8r0DGFr5IkgRBmTpRKfIyH-15m82V&usqp=CAU" width="10%"></v-img>
-            </v-avatar>
-            
-            <v-card-text class="text--primary">
-                <div class="headline font-weight-bold" style="position: relative; top: 25px;">Create your account</div>
-            </v-card-text>
+          <v-container>
+            <v-form v-model="valid">
+                <v-avatar class="avatar-logo">
+                    <v-icon large color="blue">mdi-twitter</v-icon>
+                </v-avatar>
+                
+                <div class="headline font-weight-bold">Create your account</div>
 
-            <alert v-show="error" :error="error" class="mx-5"/>
-            <v-container>
-                <v-row>
-                    <v-col cols="12">
-                        <v-text-field 
-                            label="Firstname" 
-                            v-model="firstname" 
-                            :rules="[required('Firstname'), minLength('Firstname', 3), maxLength('Firstname', 20)]"
-                        >
-                        </v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" >
-                        <v-text-field
-                        label="Lastname"
-                        hint="Lastname"
-                        v-model="lastname"
-                        :rules="[required('Lastname'), minLength('Lastname', 3), maxLength('Lastname', 20)]"
-                        ></v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="6" sm="6">
-                        <v-text-field 
-                            label="Username*"  
-                            v-model="username"
-                            :rules="[required('Username'), minLength('Username', 5), maxLength('Lastname', 20)]"
-                        ></v-text-field>
-                    </v-col>
-                     <v-col cols="6" sm="6">
-                        <v-text-field 
-                            label="Email" 
-                            v-model="email"
-                            :rules="[required('Email'), emailRules('Email')]"
-                        ></v-text-field>
-                    </v-col>
-                </v-row>
-                 <v-row>
-                    <v-col cols="12">
-                        <v-text-field 
-                            label="Password" 
-                            v-model="password"
-                            :rules="passwordRules"
-                            :append-icon="value ? 'visibility' : 'visibility_off'"
-                            @click:append="() => (value = !value)"
-                            :type="value ? 'password' : 'text'"
-                            error-count="5"
-                        ></v-text-field>
-                    </v-col>
-                </v-row>
-            </v-container>
-            <v-card-actions>
-            <v-spacer></v-spacer>
-                <v-btn color="blue" text @click="dialog = false">Cancel</v-btn>
-                <v-btn 
-                    rounded 
-                    color="blue darken-1" 
-                    @click="signupUser" 
-                    :disabled="!valid"
-                    :loading="loading"
-                    depressed
-                >Signup</v-btn>
-            </v-card-actions>
-        </v-form>
+                <alert v-show="error" :error="error" class="mx-5"/>
+                
+                    <v-row>
+                        <v-col cols="12">
+                            <v-text-field 
+                                label="Firstname" 
+                                v-model="firstname" 
+                                :rules="[required('Firstname'), minLength('Firstname', 3), maxLength('Firstname', 20)]"
+                            >
+                            </v-text-field>
+                        </v-col>
+                        <v-col cols="12" >
+                            <v-text-field
+                            label="Lastname"
+                            hint="Lastname"
+                            v-model="lastname"
+                            :rules="[required('Lastname'), minLength('Lastname', 3), maxLength('Lastname', 20)]"
+                            ></v-text-field>
+                        </v-col>
+                         <v-col cols="6" sm="6">
+                            <v-text-field 
+                                label="Username*"  
+                                v-model="username"
+                                :rules="[required('Username'), minLength('Username', 5), maxLength('Lastname', 20)]"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="6" sm="6">
+                            <v-text-field 
+                                label="Email" 
+                                v-model="email"
+                                :rules="[required('Email'), emailRules('Email')]"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field 
+                                label="Password" 
+                                v-model="password"
+                                :rules="passwordRules"
+                                :append-icon="value ? 'visibility' : 'visibility_off'"
+                                @click:append="() => (value = !value)"
+                                :type="value ? 'password' : 'text'"
+                                error-count="5"
+                            ></v-text-field>
+                        </v-col>
+                    </v-row>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                    <v-btn color="blue" text @click="dialog = false">Cancel</v-btn>
+                    <v-btn 
+                        rounded 
+                        color="blue darken-1" 
+                        @click="signupUser" 
+                        :disabled="!valid"
+                        :loading="loading"
+                        depressed
+                    >Signup</v-btn>
+                </v-card-actions>
+            </v-form>
+        </v-container>
+
       </v-card>
     </v-dialog>
   </v-row>
@@ -224,7 +218,7 @@ export default {
 <style scoped>
 .avatar-logo {
     position: relative;
-    top: 20px;
+    top: 0px;
     right: 50%;
     left: 50%;
     margin: auto;
