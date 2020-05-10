@@ -7,7 +7,7 @@
                             <v-img
                                 v-on="on"
                                 style="background-color: grey;"
-                                src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+                                src="https://cdn3.vectorstock.com/i/1000x1000/85/52/cartoon-blue-bird-on-wire-vector-4988552.jpg"
                                 height="130"
                                 class="profile-image"
                             ></v-img>

@@ -1,29 +1,38 @@
 <template>
     <div>
-        <v-list-item 
-            v-for="(following, index) in showFollowing" :key="index"
-        >
-            <router-link :to="`/profile/${following.user.id}`">
-                <v-list-item-avatar>
-                    <img :src="showFollowerProfile(following)">
-                </v-list-item-avatar>
-            </router-link>
+        <div  v-for="(following, index) in showFollowing" :key="index">
+            <template>
+                <v-list-item>
+                    <v-list-item-avatar>
+                        <img :src="showFollowerProfile(following)">
+                    </v-list-item-avatar>
 
-            <v-list-item-content>
-                <router-link :to="`/profile/${following.user.id}`" style="text-decoration: none;">
-                    <v-list-item-title>
-                        {{capitalize(`${following.user.firstname}`) + " " + capitalize(`${following.user.lastname}`)}}
-                    </v-list-item-title>
-                </router-link>
-                <v-list-item-subtitle class="d-flex">
-                    <router-link :to="`/profile/${following.user.id}`" style="text-decoration: none; color: grey;">
-                        @{{`${following.user.username}`}}
-                    </router-link>
-                </v-list-item-subtitle>
-            
-            </v-list-item-content>
-        </v-list-item>
-        <!-- <v-divider></v-divider> -->
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            {{capitalize(`${following.user.firstname}`) + " " + capitalize(`${following.user.lastname}`)}}
+                        </v-list-item-title>
+                        <v-list-item-subtitle class="d-flex">
+                                @{{`${following.user.username}`}}
+                        </v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-content>
+                        <v-list-item-title style="position: relative; left: 66px;">
+                            <v-btn 
+                                small
+                                depressed 
+                                rounded
+                                dark 
+                                outlined 
+                                color="blue">
+                                Unfollow
+                            </v-btn>
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-divider></v-divider>
+            </template>
+        </div>
     </div>
 </template>
 
@@ -52,3 +61,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.v-btn {
+    text-transform: none !important;
+}
+</style>

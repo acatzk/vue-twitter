@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="text-center mt-5"
-            v-if="$apollo.loading">
+            v-if="$apollo.loading"
+        >
             <Spinner />
         </div>
         <div v-else
@@ -90,7 +91,7 @@ export default {
 
     data() {
         return {
-            userCommentCount: []
+            posts: []
         }
     },
 
@@ -99,8 +100,13 @@ export default {
     },
 
     apollo: {
-        posts: {
-            query: GET_ALL_POSTS
+        $subscribe: {
+            posts: {
+                query: GET_ALL_POSTS,
+                result({ data }) {
+                    this.posts = data.posts
+                }
+            }
         }
     },
 

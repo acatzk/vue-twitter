@@ -1,0 +1,239 @@
+[33mcommit 83b45a5f587264289ab7692a9feb4e8a1232ca44[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sun May 10 10:08:44 2020 +0800
+
+    fix the responsive layout of icons and update the validation form of signup and login
+
+[33mcommit fa391751d29af32b82d15923635af09701f2feb3[m[33m ([m[1;31mheroku/master[m[33m)[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 14:28:28 2020 +0800
+
+    showing all user following dialog
+
+[33mcommit c393fefdf24a2eec60e45d671aba6a3b62d8dd6b[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 13:27:07 2020 +0800
+
+    show the number of followers and following
+
+[33mcommit 9dadb782ade18a5f7aaa05ded97866d6810ce477[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 12:22:51 2020 +0800
+
+    adding count user who follow the other user
+
+[33mcommit 8deb2eade120885186d5b2383c54c7ef290c1b8e[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 12:22:08 2020 +0800
+
+    modify the query and add the aggregate function
+
+[33mcommit 2a9f9bccfdbf0a95f0d9192cda88998335c50a2c[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 12:21:14 2020 +0800
+
+    adding getFollowStatus query for checking if user already follow
+
+[33mcommit d52fc0257b951518ebe0e456b80bfa49d228f254[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 12:20:35 2020 +0800
+
+    remove follow button
+
+[33mcommit fa3698ea4dac94a1a19977d58297e8e15acb5e30[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 10:39:20 2020 +0800
+
+    modify the import name of EditProfile
+
+[33mcommit 88b241f6e7c2c8bd1b59c260fc6428c8d6ff500c[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 10:36:10 2020 +0800
+
+    edit the position and change to relative to move every field
+
+[33mcommit 986e6c49a014f03238c2dd48fbc12de8e9d1cc31[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 10:16:19 2020 +0800
+
+    adding component EditProfile for show data thru props
+
+[33mcommit 9eaf1382f3b5011fa3e9ca244604a91a19702bcb[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sat May 9 09:53:58 2020 +0800
+
+    modify the sidebar, spinner, getUserPost query and UserPosts for count of comments
+
+[33mcommit 0cc752b8fe06c8f4ed1aa060e26b2d32b65c51cd[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 8 13:32:16 2020 +0800
+
+    adding count for every user commenting
+
+[33mcommit cd71e5116ebd8a3d028faf873b0a80e5f1107113[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 8 12:11:13 2020 +0800
+
+    remove the existing css inline style
+
+[33mcommit 8e29c5fb4e0d6c64514cb4bc26844cfb2c6c39eb[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 8 12:04:42 2020 +0800
+
+    remove the css positioning of profile
+
+[33mcommit a0b6c0223dda428c701bdccedca5418f358b3bd3[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 8 11:58:04 2020 +0800
+
+    remove inline css positioning style
+
+[33mcommit cf6f40609a744c1288947393461d5d4ed287c95c[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 8 11:52:25 2020 +0800
+
+    modify the inline css position profile name
+
+[33mcommit bc1509ed895c902786434542cbf7b129a7fdf85b[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 8 10:35:01 2020 +0800
+
+    modify the res.sendfile to res.sendFile
+
+[33mcommit b560a74be4e8d11128b7dadba346196d0ad192fa[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 8 10:34:01 2020 +0800
+
+    running production mode
+
+[33mcommit eb6d2444d3ade9926b5f2562bc95a1a78dd258e9[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 8 10:10:32 2020 +0800
+
+    install nprogress and apply into router link
+
+[33mcommit faac3ee2d9012378c37c47307b4870c62a8305f3[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Thu May 7 15:40:23 2020 +0800
+
+    adding options in comment
+
+[33mcommit 3c2843c7954f0015a2587129886dfbcfb3112967[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Thu May 7 14:18:54 2020 +0800
+
+    display posts data and creating a comment function and dipslay data
+
+[33mcommit c2435413036aee7ab22488c1902dd49f5489b578[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Wed May 6 14:24:27 2020 +0800
+
+    working with follow button and modified apollo mutate
+
+[33mcommit ed5b8fadf2549b3ac7eac6400016c58fcf0a03e9[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Tue May 5 14:29:02 2020 +0800
+
+    not yet done for click and open the file to upload
+
+[33mcommit a2765f086f785bc8df18e4011782137b859fbecf[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Tue May 5 14:28:29 2020 +0800
+
+    adding firebase/storage for image upload
+
+[33mcommit 4b625d04de54b50925b6dd74b4031dda5fd2976f[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Tue May 5 14:28:01 2020 +0800
+
+    adding apollo mutate and add the default value of profile
+
+[33mcommit 66f7ad5ea4cd1020b01079c1aaae17f2f8fdcd40[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Tue May 5 12:11:11 2020 +0800
+
+    changing dynamic profile Image
+
+[33mcommit 5030a94c52c0603a9a35840a1a9108a3dff08aab[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Tue May 5 09:15:41 2020 +0800
+
+    adding loading style in every route
+
+[33mcommit 1125a66b635b64a774c1da925f814146502a9930[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Tue May 5 09:14:47 2020 +0800
+
+    renamed the AddPost to TweetPost
+
+[33mcommit 09c3fc3786638dc0700a2e341d12bec6f1513548[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Mon May 4 14:54:07 2020 +0800
+
+    modify the queries and adding the dynamic user profile
+
+[33mcommit 7a7741eec3254330d508c9c55b17c1e5703f2063[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Sun May 3 16:36:59 2020 +0800
+
+    user can show and update profile
+
+[33mcommit 38e3b7dc8f02b89263fb8f4b6975d860117a93bf[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:48:31 2020 +0800
+
+    Install nanoid modify the signup and display users posts with creating new components
+
+[33mcommit 1b9d89bb0f2405fc79f68f29a7298c36aec60114[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:46:28 2020 +0800
+
+    adding tweetPost query in hasura
+
+[33mcommit ce7942a6028d0015a481f2b99c5561fb0fb9160d[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:45:12 2020 +0800
+
+    adding getUser query in hasura graphql API
+
+[33mcommit 0ce89c8a2ce1fc5021cb651cab3d7c1087941a05[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:44:32 2020 +0800
+
+    change some schema in hasura and try to insert profile but failed so i change it to normal
+
+[33mcommit 453326a5fbe921fd73457fa8cc0726c3273262d5[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:43:15 2020 +0800
+
+    modify the logout button to dropdown with settings select
+
+[33mcommit 4599915e53b6fb3209ab1ee309a9f1552ce7df4e[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:42:20 2020 +0800
+
+    modify the component and display all users
+
+[33mcommit a07afa065a6c2f3b411f30c9dacf16f01817fd17[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:41:23 2020 +0800
+
+    delete the PostCard component
+
+[33mcommit 9ad21baa30dc89f96cd0f9873b597c42ee30f02c[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:40:14 2020 +0800
+
+    modify the navbar link variables
+
+[33mcommit 473eeb0c50cf92ae2178057c00f6c7d783d45bbe[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Fri May 1 14:39:31 2020 +0800
+
+    adding addPost component for posting online
+
+[33mcommit 006edef9455c0f5fc1230ff69b8398f0a295eaca[m
+Author: acatzk <joshuaimalay@gmail.com>
+Date:   Thu Apr 30 15:18:18 2020 +0800
+
+    Initial commit

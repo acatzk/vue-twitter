@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const GET_ALL_POSTS = gql`
-query getAllPosts {
+subscription getAllPosts {
   posts(order_by: {created_at: desc}) {
     id
     imageUrl

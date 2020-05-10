@@ -210,7 +210,9 @@
                 style="position: relative; bottom: 64px; left: 15px; color: grey;">
                 <div class="mr-2 follow">
                     
-                    <v-dialog v-model="followingDialog" scrollable max-width="600px">
+                    <v-dialog v-model="followingDialog" scrollable max-width="450px">
+
+                        <!-- Following dialog -->
                         <template v-slot:activator="{ on }">
                             <a 
                                 v-on="on"
@@ -233,25 +235,62 @@
                                     </div>
                                 </v-row>
                             </v-card-title>
-                            <v-divider></v-divider>
                             <v-card-text style="height: 400px;">
                                 <!-- Show Data -->
+                                <div class="text-center mt-5" v-if="$apollo.loading">
+                                    <spinner />
+                                </div>
                                  <show-following 
+                                    v-else
                                     :showFollowing="showFollowing"
                                  />
                                 <!-- End Show Data -->
                             </v-card-text>
                         </v-card>
                     </v-dialog>
+                    <!-- End following dialog -->
 
                 </div>
                 <div class="follow">
-                    <a 
-                        style="text-decoration: none; color: grey;"
-                    >
-                    <!-- user.follows_aggregate.aggregate.followers -->
-                        <b style="color: #000;">{{ user.followers.aggregate.count }}</b> Followers
-                    </a>
+                    <v-dialog v-model="followersDialog" scrollable max-width="450px">
+
+                        <!-- Followers dialog -->
+                        <template v-slot:activator="{ on }">
+                            <a 
+                                v-on="on"
+                                style="text-decoration: none; color: grey;"
+                            >
+                                <b style="color: #000;">{{ user.followers.aggregate.count }}</b> Followers
+                            </a>
+                         </template>
+                        <v-card style="border-radius: 15px;">
+                            <v-card-title>
+                                <v-row>
+                                    <v-btn 
+                                        icon 
+                                        color="blue" 
+                                        @click="followersDialog = false"
+                                    >
+                                        <v-icon>close</v-icon>
+                                    </v-btn>
+                                    <div class="font-weight-black" style="position: absolute; margin-left: 45px;">
+                                        Followers
+                                    </div>
+                                </v-row>
+                            </v-card-title>
+                            <v-card-text style="height: 400px;">
+                                <!-- Show Data -->
+                                <div class="text-center mt-5" v-if="!$apollo.loading">
+                                    <spinner />
+                                </div>
+                                 <show-followers 
+                                    v-else
+                                 />
+                                <!-- End Show Data -->
+                            </v-card-text>
+                        </v-card>
+                    </v-dialog>
+                    <!-- End followers Dialog -->
                 </div>
             </div> 
 
@@ -305,7 +344,8 @@ export default {
         Spinner: () => import('@/components/Spinner.vue'),
         UserPosts: () => import('./UserPosts'),
         EditProfile: () => import('./EditProfile'),
-        ShowFollowing: () => import('./ShowFollowing')
+        ShowFollowing: () => import('./ShowFollowing'),
+        ShowFollowers: () => import('./ShowFollowers')
     },
 
     data() {
@@ -467,6 +507,7 @@ export default {
             }
         },
 
+        // For the button if user is already follow or unfollow
         follower_status: {
             query: GET_FOLLOWER_STATUS,
             variables() {
