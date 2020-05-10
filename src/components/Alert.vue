@@ -1,8 +1,7 @@
 <template>
     <v-alert
-      v-model="alert"
-      
-      color="cyan"
+      v-model="alert"    
+      color="blue"
       border="left"
       elevation="2"
       colored-border

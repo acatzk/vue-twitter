@@ -6,7 +6,7 @@
                 outlined
                 style="position: relative; top: 80px;"
             >
-                <v-avatar style="margin: auto; position: relative; left: 220px; top: 20px;">
+                <v-avatar class="avatar-logo">
                     <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_oLh-lBWDZkLGJkA9txG8r0DGFr5IkgRBmTpRKfIyH-15m82V&usqp=CAU" width="10%"></v-img>
                 </v-avatar>
                
@@ -27,8 +27,10 @@
                 <v-text-field
                     v-model="password" 
                     label="Password"
-                    type="password"
                     :rules="[required('password')]"
+                    :append-icon="value ? 'visibility' : 'visibility_off'"
+                    @click:append="() => (value = !value)"
+                    :type="value ? 'password' : 'text'"
                 ></v-text-field>
                 
                 <v-btn 
@@ -45,11 +47,9 @@
                         Log in
                 </v-btn>
 
-                <v-row class="mt-4">
-                    <router-link class="body-2" to="/forgot" style="text-decoration: none; position: relative; left: 120px">Forgot password?</router-link>
-                    <sign-up /> <!-- this is sign up dialog -->      
-                </v-row>
-
+                <div class="justify-space-between mx-3">
+                    <sign-up />     
+                </div>
                 </v-form>
             </v-card>
             
@@ -73,6 +73,7 @@ export default {
 
     data() {
         return {
+            value: String,
             email: '',
             password: '',
             error: '',
@@ -110,3 +111,14 @@ export default {
     },
 }
 </script>
+
+
+<style scoped>
+.avatar-logo {
+    position: relative;
+    top: 20px;
+    right: 50%;
+    left: 50%;
+    margin: auto;
+}
+</style>

@@ -2,23 +2,37 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on }">
-            <a href="#" class="body-2 ml-3" v-on="on" style="text-decoration: none;">Sign up for Twitter</a>
+            <!-- class="body-2 ml-3" style="text-decoration: none;" -->
+            <router-link 
+                class="body-2 mt-3" 
+                to="/forgot" 
+                style="text-decoration: none;"
+            >
+                Forgot password?
+            </router-link>
+            <a 
+                href="#" 
+                class="body-2 ml-5 mt-3" 
+                v-on="on" 
+                style="text-decoration: none;"
+            >
+                Sign up for Twitter
+            </a>
         </template>
-      <v-card class="rounded">     
+      <v-card>     
         <v-form v-model="valid">
-            <v-avatar style="margin: auto; position: relative; left: 280px; top: 20px;">
+            <v-avatar class="avatar-logo">
                 <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_oLh-lBWDZkLGJkA9txG8r0DGFr5IkgRBmTpRKfIyH-15m82V&usqp=CAU" width="10%"></v-img>
             </v-avatar>
             
             <v-card-text class="text--primary">
-                <div class="headline font-weight-bold mt-5">Create your account</div>
+                <div class="headline font-weight-bold" style="position: relative; top: 25px;">Create your account</div>
             </v-card-text>
 
-            <v-card-text>
             <alert v-show="error" :error="error" class="mx-5"/>
             <v-container>
                 <v-row>
-                    <v-col cols="12" sm="6" md="6">
+                    <v-col cols="12">
                         <v-text-field 
                             label="Firstname" 
                             v-model="firstname" 
@@ -26,7 +40,9 @@
                         >
                         </v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="6">
+                </v-row>
+                <v-row>
+                    <v-col cols="12" >
                         <v-text-field
                         label="Lastname"
                         hint="Lastname"
@@ -34,6 +50,8 @@
                         :rules="[required('Lastname'), minLength('Lastname', 3), maxLength('Lastname', 20)]"
                         ></v-text-field>
                     </v-col>
+                </v-row>
+                <v-row>
                     <v-col cols="6" sm="6">
                         <v-text-field 
                             label="Username*"  
@@ -41,24 +59,28 @@
                             :rules="[required('Username'), minLength('Username', 5), maxLength('Lastname', 20)]"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="6" sm="6">
+                     <v-col cols="6" sm="6">
                         <v-text-field 
                             label="Email" 
                             v-model="email"
                             :rules="[required('Email'), emailRules('Email')]"
                         ></v-text-field>
                     </v-col>
+                </v-row>
+                 <v-row>
                     <v-col cols="12">
                         <v-text-field 
                             label="Password" 
-                            type="password" 
                             v-model="password"
-                             :rules="[required('Password'), minLength('Password', 5)]"
+                            :rules="passwordRules"
+                            :append-icon="value ? 'visibility' : 'visibility_off'"
+                            @click:append="() => (value = !value)"
+                            :type="value ? 'password' : 'text'"
+                            error-count="5"
                         ></v-text-field>
                     </v-col>
                 </v-row>
             </v-container>
-            </v-card-text>
             <v-card-actions>
             <v-spacer></v-spacer>
                 <v-btn color="blue" text @click="dialog = false">Cancel</v-btn>
@@ -96,6 +118,7 @@ export default {
             dialog: false,
             valid: false,
             loading: false,
+            value: String,
             error: '',
             firstname: '',
             lastname: '',
@@ -113,7 +136,14 @@ export default {
             },
             emailRules(propertyType) {
                 return v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || `${propertyType} address must be valid.`
-            }
+            },
+            passwordRules: [
+                v => !!v || 'Password is required',
+                v => (v && v.length >= 5) || 'Password must have 5+ characters',
+                v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character',
+                v => /(?=.*\d)/.test(v) || 'Must have one number',
+                v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]'
+            ]
         }
     },
 
@@ -189,3 +219,14 @@ export default {
 
 }
 </script>
+
+
+<style scoped>
+.avatar-logo {
+    position: relative;
+    top: 20px;
+    right: 50%;
+    left: 50%;
+    margin: auto;
+}
+</style>
