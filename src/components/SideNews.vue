@@ -52,11 +52,9 @@
                                     </v-btn> -->
                                 </v-list-item-subtitle>
                             </router-link>
-
-                           
                         </v-list-item-content>
+                        <v-divider></v-divider>
                     </v-list-item>
-                    <v-divider></v-divider>
                 </template>
             </v-card>
     </div>

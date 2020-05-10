@@ -5,7 +5,8 @@
       <v-app-bar-nav-icon  @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       
       <v-toolbar-title>
-        Twitter
+        <!-- Twitter -->
+        <v-icon>mdi-twitter</v-icon>
       </v-toolbar-title>
       
        <v-text-field
