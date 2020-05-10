@@ -37,23 +37,22 @@
                                 <v-list-item-title>
                                     {{capitalize(`${user.firstname}`) + " " + capitalize(`${user.lastname}`)}}
                                 </v-list-item-title>
+                                <v-list-item-subtitle class="d-flex">
+                                        @{{`${user.username}`}}
+                                    <!-- <v-btn 
+                                        depressed
+                                        x-small
+                                        :class="follow ? 'follow ml-2' : 'ml-2'" 
+                                        dark
+                                        :color="follow ? 'grey darken-1' : 'blue darken-1'"
+                                        v-model="userFollow[user.id]"
+                                        @click="followUser(user.id)"
+                                    > 
+                                        {{ follow ? capitalize('unfollow') : capitalize('follow') }}
+                                    </v-btn> -->
+                                </v-list-item-subtitle>
                             </router-link>
-                            <v-list-item-subtitle class="d-flex">
-                                <router-link :to="`/profile/${user.id}`" style="text-decoration: none; color: grey;">
-                                    @{{`${user.username}`}}
-                                </router-link>
-                                <!-- <v-btn 
-                                    depressed
-                                    x-small
-                                    :class="follow ? 'follow ml-2' : 'ml-2'" 
-                                    dark
-                                    :color="follow ? 'grey darken-1' : 'blue darken-1'"
-                                    v-model="userFollow[user.id]"
-                                    @click="followUser(user.id)"
-                                > 
-                                    {{ follow ? capitalize('unfollow') : capitalize('follow') }}
-                                </v-btn> -->
-                            </v-list-item-subtitle>
+
                            
                         </v-list-item-content>
                     </v-list-item>
