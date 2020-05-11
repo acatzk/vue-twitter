@@ -173,6 +173,7 @@ export default {
                             }
                         }).then(() => {
                             this.loading = false
+                            location.reload()
                             this.$router.replace('/')   
                         }).catch(error => {
                             this.loading = false
