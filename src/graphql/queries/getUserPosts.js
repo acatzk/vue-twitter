@@ -2,28 +2,28 @@ import gql from 'graphql-tag'
 
 export const GET_USER_POSTS = gql`
 query getUserPosts($user_id: String!) {
-    posts(where: {user_id: {_eq: $user_id}}, order_by: {created_at: desc}) {
+  posts(where: {user_id: {_eq: $user_id}}, order_by: {created_at: desc}) {
+    id
+    imageUrl
+    caption
+    user_id
+    created_at
+    likes
+    user {
       id
-      imageUrl
-      caption
-      user_id
-      created_at
-      likes
-      user {
+      firstname
+      lastname
+      username
+      profile {
         id
-        firstname
-        lastname
-        username
-        profile {
-          id
-          avatarUrl
-        }
-      }
-      comments_aggregate(where: {user_id: {_eq: $user_id}}, order_by: {created_at: desc}) {
-        aggregate { 
-          count
-        }
+        avatarUrl
       }
     }
-  }  
+    comments_aggregate {
+      aggregate { 
+        count
+      }
+    }
+  }
+}  
 `
