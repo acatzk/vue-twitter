@@ -309,19 +309,19 @@
                 </v-tabs>
 
                 <v-tabs-items v-model="tab">
-                <v-tab-item
-                    v-for="tweet in tweetTabs"
-                    :key="tweet.tab"
-                >
-                    <v-card 
-                        flat 
-                        style="position: relative; bottom: 40px;"
-                        v-if="tweet.tab == 'Tweets'"
+                    <v-tab-item
+                        v-for="tweet in tweetTabs"
+                        :key="tweet.tab"
                     >
-                        <user-posts class="mt-2"/>
-                    </v-card>
-                </v-tab-item>
-            </v-tabs-items>
+                        <v-card 
+                            flat 
+                            style="position: relative; bottom: 40px;"
+                            v-if="tweet.tab == 'Tweets'"
+                        >
+                            <user-posts class="mt-2"/>
+                        </v-card>
+                    </v-tab-item>
+                </v-tabs-items>
 
         </v-card>
        </div>

@@ -60,6 +60,7 @@
                         <v-btn icon>
                             <v-icon>chat_bubble_outline</v-icon>
                             {{ post.comments_aggregate.aggregate.count }}
+                            <!-- {{ count.count }} -->
                         </v-btn>
                         <v-btn icon>
                             <v-icon>transform</v-icon>
@@ -83,9 +84,14 @@
 import { GET_USER_POSTS } from '@/graphql/queries/getUserPosts'
 import Spinner from '@/components/Spinner.vue'
 
-
 export default {
     name: 'PostCard',
+
+    data() {
+        return {
+            posts: []
+        }
+    },
 
     components: {
         Spinner
@@ -98,6 +104,9 @@ export default {
                 return {
                     user_id: this.$route.params.id
                 }
+            },
+            result({ data }) {
+                this.posts = data.posts
             }
         }
     },
