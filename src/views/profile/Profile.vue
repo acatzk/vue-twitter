@@ -76,13 +76,10 @@
                     depressed
                     :loading="loading"
                     @click="followUser(user)"
-                    v-show="follower_status.aggregate.count === 0"
                 >
-                    <!-- {{ followStatus ? 'Unfollow' : 'Follow'  }} -->
-                    <!-- {{ follow_aggregate.aggregate.count === 0 ? 'Follow' : 'Unfollow' }} -->
-                    Follow
+                    {{ follower_status.aggregate.count === 0 ? 'Follow' : 'Unfollow' }}
                 </v-btn>
-
+<!-- 
                 <v-btn 
                     rounded 
                     dark
@@ -95,7 +92,7 @@
                     v-show="follower_status.aggregate.count === 1"
                 >
                     Unfollow
-                </v-btn>
+                </v-btn> -->
 
             </div>
 
