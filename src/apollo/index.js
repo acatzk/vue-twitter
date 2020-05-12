@@ -22,6 +22,7 @@ const wsLink = new WebSocketLink({
   uri: "ws://graphql-data.herokuapp.com/v1/graphql",
   options: {
     reconnect: true,
+    timeout: 30000,
     connectionParams() {
       return {
         headers: {
