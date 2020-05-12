@@ -100,10 +100,12 @@ export default {
     },
 
     apollo: {
-        posts: {
-            query: GET_ALL_POSTS,
-            result({ data }) {
-                this.posts = data.posts
+        $subscribe: {
+            posts: {
+                query: GET_ALL_POSTS,
+                result({ data }) {
+                    this.posts = data.posts
+                }
             }
         }
     },

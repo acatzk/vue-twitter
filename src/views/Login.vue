@@ -4,7 +4,7 @@
                 class="mx-auto"
                 max-width="500"
                 outlined
-                style="position: relative; top: 80px;"
+                style="position: relative; top: 30%;"
             >
                 <v-avatar class="avatar-logo">
                     <v-icon large color="blue">mdi-twitter</v-icon>

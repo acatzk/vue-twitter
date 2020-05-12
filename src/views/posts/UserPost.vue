@@ -62,8 +62,14 @@
                         <v-btn icon>
                             <v-icon>transform</v-icon>
                         </v-btn>
-                        <v-btn icon>
-                            <v-icon>mdi-heart-outline</v-icon>
+                        <v-btn 
+                            icon 
+                            :loading="reactLoading"
+                            @click="reactButton(post)"
+                        >
+                            <v-icon v-if="reactCount.count === 0">mdi-heart-outline</v-icon>
+                            <v-icon v-else color="red">mdi-heart</v-icon>
+                            {{ reactCount.count }}
                         </v-btn>
                         <v-btn icon>
                             <v-icon>keyboard_capslock</v-icon>
@@ -126,6 +132,7 @@ import { GET_SINGLE_USER_POST } from '@/graphql/queries/getSinglePost'
 import { GET_USER_POST_COMMENTS } from '@/graphql/queries/getUserPostComments'
 import { GET_CURRENT_USER_QUERY } from '@/graphql/queries/getCurrentUser'
 import { COMMENT_USER_MUTATION } from '@/graphql/mutations/commentUser'
+import { REACT_USER_MUTATION, UNREACT_USER_MUTATION } from '@/graphql/mutations/reactUser'
 import { fb } from '@/firebase'
 
 export default {
@@ -136,7 +143,9 @@ export default {
             auth_user_id: fb.auth().currentUser,
             commentUser: '',
             loading: false,
-            count: 0
+            reactLoading: false,
+            count: 0,
+            reactCount: 0
         }
     },
 
@@ -183,12 +192,24 @@ export default {
             result({ data }) {
                 this.count = data.comments_aggregate.aggregate
             }
+        },
+
+        react_aggregate: {
+            query: GET_USER_POST_COMMENTS,
+            variables() {
+                return {
+                    post_id: this.$route.params.id
+                }
+            },
+            result({ data }) {
+                this.reactCount = data.react_aggregate.aggregate
+            }
         }
 
     },
 
     methods: {
-         capitalize(s) {
+        capitalize(s) {
             if (typeof s !== 'string') return ''
             return s.charAt(0).toUpperCase() + s.slice(1)
         },
@@ -228,6 +249,34 @@ export default {
                 }).then(() => {
                     this.loading = false
                     this.commentUser = ''
+                }).catch(error => console.log(error))
+            }
+        },
+        reactButton(post) {
+            this.reactLoading = true
+            // const userCurrentReacted = this.react_aggregate.nodes ? this.react_aggregate.nodes.user.id : ''
+            //  === 0 && userCurrentReacted !== auth_user_id.uid
+            if (this.react_aggregate.aggregate.count === 0) {
+                this.$apollo.mutate({
+                    mutation: REACT_USER_MUTATION,
+                    variables: {
+                        post_id: post.id, 
+                        user_id: this.auth_user_id.uid
+                    },
+                    refetchQueries: ['getUserPostComments']
+                }).then(() => {
+                    this.reactLoading = false
+                }).catch(error => console.log(error))
+            } else {
+                this.$apollo.mutate({
+                    mutation: UNREACT_USER_MUTATION,
+                    variables: {
+                        post_id: this.$route.params.id,
+                        user_id: this.auth_user_id.uid
+                    },
+                    refetchQueries: ['getUserPostComments']
+                }).then(() => {
+                    this.reactLoading = false
                 }).catch(error => console.log(error))
             }
         }

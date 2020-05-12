@@ -26,8 +26,10 @@
                     <v-icon small class="mr-1">public</v-icon>
                     <timeago :datetime="comment.created_at" :auto-update="60"></timeago>
                 </v-list-item-subtitle>
-                <v-list-item-subtitle class="font-weight-medium">
-                     {{ comment.message }}
+                <v-list-item-subtitle class="font-weight-normal">
+                    <v-card>
+                        {{ comment.message }}
+                    </v-card>
                 </v-list-item-subtitle>
                 <v-row class="justify-space-around">
                     <v-btn icon x-small>
