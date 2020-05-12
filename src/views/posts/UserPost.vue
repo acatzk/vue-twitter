@@ -133,6 +133,9 @@ import { GET_USER_POST_COMMENTS } from '@/graphql/queries/getUserPostComments'
 import { GET_CURRENT_USER_QUERY } from '@/graphql/queries/getCurrentUser'
 import { COMMENT_USER_MUTATION } from '@/graphql/mutations/commentUser'
 import { REACT_USER_MUTATION, UNREACT_USER_MUTATION } from '@/graphql/mutations/reactUser'
+import { GET_COMMENT_COUNT } from '@/graphql/queries/getCommentCount'
+import { GET_REACT_COUNT } from '@/graphql/queries/getReactCount'
+
 import { fb } from '@/firebase'
 
 export default {
@@ -145,7 +148,10 @@ export default {
             loading: false,
             reactLoading: false,
             count: 0,
-            reactCount: 0
+            reactCount: 0,
+            comments: [],
+            users: [],
+            posts: []
         }
     },
 
@@ -155,12 +161,16 @@ export default {
     },
 
     apollo: {
+
         posts: {
             query: GET_SINGLE_USER_POST,
             variables() {
                 return {
                     id: this.$route.params.id
                 }
+            },
+            result({ data }) {
+                this.posts = data.posts
             }
         },
 
@@ -170,32 +180,40 @@ export default {
                 return {
                     id: this.auth_user_id.uid
                 }
+            },
+            result({ data }) {
+                this.users = data.users
             }
         },
         
-        comments: {
-            query: GET_USER_POST_COMMENTS,
-            variables() {
-                return {
-                    post_id: this.$route.params.id
-                }
-            }
-        },
-
-        comments_aggregate: {
-            query: GET_USER_POST_COMMENTS,
-            variables() {
-                return {
-                    post_id: this.$route.params.id
+       $subscribe: {
+           comments: {
+                query: GET_USER_POST_COMMENTS,
+                variables() {
+                    return {
+                        post_id: this.$route.params.id
+                    }
+                },
+                result({ data }) {
+                    this.comments = data.comments
                 }
             },
-            result({ data }) {
-                this.count = data.comments_aggregate.aggregate
-            }
-        },
+            comments_aggregate: {
+                query: GET_COMMENT_COUNT,
+                variables() {
+                    return {
+                        post_id: this.$route.params.id
+                    }
+                },
+                result({ data }) {
+                    this.count = data.comments_aggregate.aggregate
+                }
+            },
+            
+       },
 
-        react_aggregate: {
-            query: GET_USER_POST_COMMENTS,
+       react_aggregate: {
+            query: GET_REACT_COUNT,
             variables() {
                 return {
                     post_id: this.$route.params.id
@@ -205,6 +223,9 @@ export default {
                 this.reactCount = data.react_aggregate.aggregate
             }
         }
+        
+        
+
 
     },
 
@@ -245,7 +266,7 @@ export default {
                         post_id: this.$route.params.id,
                         message: this.commentUser
                     }, 
-                    refetchQueries: ['getUserPostComments']
+                    refetchQueries: ['getUserPostComments', 'getCommentCount', 'react_aggregate']
                 }).then(() => {
                     this.loading = false
                     this.commentUser = ''

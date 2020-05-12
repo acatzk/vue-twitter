@@ -98,15 +98,17 @@ export default {
     },
 
     apollo: {
-        posts: {
-            query: GET_USER_POSTS,
-            variables() {
-                return {
-                    user_id: this.$route.params.id
+        $subscribe: {
+            posts: {
+                query: GET_USER_POSTS,
+                variables() { 
+                    return {
+                        user_id: this.$route.params.id
+                    }
+                },
+                result({ data }) {
+                    this.posts = data.posts
                 }
-            },
-            result({ data }) {
-                this.posts = data.posts
             }
         }
     },
