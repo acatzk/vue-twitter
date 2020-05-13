@@ -83,7 +83,9 @@
 <script>
 
 import { GET_ALL_POSTS } from '@/graphql/queries/getAllPosts'
+// import { GET_USERS_FOLLOWING_POSTS_SUBSCRIPTION } from '@/graphql/queries/getUsersFollowingPosts'
 import Spinner from '@/components/Spinner.vue'
+import { fb } from '@/firebase'
 
 
 export default {
@@ -91,7 +93,10 @@ export default {
 
     data() {
         return {
-            posts: []
+            posts: [],
+            followingUsersPosts: [],
+            loading: true,
+            currentUserId: fb.auth().currentUser
         }
     },
 
@@ -107,8 +112,22 @@ export default {
                     this.posts = data.posts
                 }
             }
-        }
+        },
+        // $subscribe: {
+        //     follow: {
+        //         query: GET_USERS_FOLLOWING_POSTS_SUBSCRIPTION,
+        //         variables() {
+        //             return {
+        //                 follower_id: this.currentUserId.uid
+        //             }
+        //         }, 
+        //         result({ data }) {
+        //             this.followingUsersPosts = data.follow
+        //         }
+        //     }
+        // }
     },
+
 
     methods: {
          capitalize(s) {

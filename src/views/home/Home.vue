@@ -3,10 +3,11 @@
       <navbar />
       <v-content class="mx-3">
         <v-row>
-          <!-- if thi responsive point into medius size close this -->
+          <!-- if the responsive point into medius size close this -->
             <v-col cols="12" md="3"  class="hidden-sm-and-down">
               <side-bar style="position: fixed;"/> <!--  Sidebar -->
            </v-col>
+           <!-- End if -->
 
            <!-- if the responsive point into middium size show this -->
            <v-col class="hidden-md-and-up">
@@ -20,17 +21,22 @@
                     <router-view style="position: relative; bottom: 20px; margin-right: 50px;"/>
                 </v-col>
           </v-col>
+          <!-- End if -->
 
-          <!-- if thi responsive point into medius size close this -->
+          <!-- if the responsive point into medius size close this -->
            <v-col cols="12" md="6" class="hidden-sm-and-down">
              <div v-if="this.$route.path == '/'">
                 <tweet-post />  <!--  Add Posts components -->
              </div>
              <router-view /> <!--  Dynamic content -->
            </v-col>
+           <!-- End if -->
+
+           <!-- SideNews -->
            <v-col cols="12" md="3" class="hidden-sm-and-down">
               <side-news /> <!--  Side news -->
            </v-col>
+           <!-- End Sidenews -->
         </v-row>
       </v-content>
   </div>

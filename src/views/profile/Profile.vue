@@ -286,10 +286,11 @@
                 <v-tab
                     v-for="tweet in tweetTabs"
                     :key="tweet.tab"
+                    style="font-size: 13px;"
                 >
                     {{ tweet.tab }}
                 </v-tab>
-                </v-tabs>
+            </v-tabs>
 
                 <v-tabs-items v-model="tab">
                     <v-tab-item
