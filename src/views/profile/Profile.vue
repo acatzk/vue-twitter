@@ -79,20 +79,6 @@
                 >
                     {{ follower_status.aggregate.count === 0 ? 'Follow' : 'Unfollow' }}
                 </v-btn>
-<!-- 
-                <v-btn 
-                    rounded 
-                    dark
-                    color="blue" 
-                    class="mx-3"
-                    depressed
-                    outlined
-                    :loading="loading"
-                    @click="followUser(user)"
-                    v-show="follower_status.aggregate.count === 1"
-                >
-                    Unfollow
-                </v-btn> -->
 
             </div>
 
