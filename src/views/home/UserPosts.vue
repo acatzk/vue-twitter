@@ -4,7 +4,7 @@
             Something went wrong in your connection...
         </div>
         <div class="text-center mt-5"
-            v-if="$apollo.loading"
+            v-if="!posts"
         >
             <v-skeleton-loader
                 class="mx-auto"
