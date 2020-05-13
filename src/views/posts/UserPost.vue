@@ -2,7 +2,12 @@
     <div>
         <div class="text-center mt-5"
             v-if="$apollo.loading">
-            <Spinner />
+            <!-- <Spinner /> -->
+             <v-skeleton-loader
+                class="mx-auto"
+                type="list-item-avatar, image, list-item-three-line"    
+            >
+            </v-skeleton-loader>
         </div>
         <div v-else
             v-for="(post, index) in posts" :key="index">

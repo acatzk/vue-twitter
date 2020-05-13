@@ -1,7 +1,11 @@
 <template>
     <div>
         <div class="text-center mt-5" v-if="$apollo.loading">
-            <spinner />
+            <!-- <spinner /> -->
+             <v-skeleton-loader
+                class="mx-auto"
+                type="image, list-item-avatar-two-line, list-item-avatar-three-line"
+            ></v-skeleton-loader>
         </div>
         <div v-else>
             <v-card  

@@ -3,7 +3,11 @@
         <div class="text-center mt-5"
             v-if="$apollo.loading"
         >
-            <Spinner />
+            <v-skeleton-loader
+                class="mx-auto"
+                type="list-item-avatar-two-line, card"    
+            >
+            </v-skeleton-loader>
         </div>
         <div v-else
             v-for="(post, index) in posts" :key="index">
