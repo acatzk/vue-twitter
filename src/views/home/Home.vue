@@ -10,21 +10,21 @@
            <!-- End if -->
 
            <!-- if the responsive point into middium size show this -->
-           <v-col class="hidden-md-and-up">
+           <!-- <v-col class="hidden-md-and-up">
                 <v-col md="2">
                   <side-bar-icon style="max-width: 60px; position: fixed;"/>  
                 </v-col>
                 <v-col md="10" style="margin-left: 70px;">
                     <div v-if="this.$route.path == '/'" style="margin-right: 50px;">
-                      <tweet-post style="position: relative; bottom: 20px;"/>  <!--  Add Posts components -->
+                      <tweet-post style="position: relative; bottom: 20px;"/> 
                     </div>
                     <router-view style="position: relative; bottom: 20px; margin-right: 50px;"/>
                 </v-col>
-          </v-col>
+          </v-col> -->
           <!-- End if -->
 
           <!-- if the responsive point into medius size close this -->
-           <v-col cols="12" md="6" class="hidden-sm-and-down">
+           <v-col cols="12" md="6">
              <div v-if="this.$route.path == '/'">
                 <tweet-post />  <!--  Add Posts components -->
              </div>
