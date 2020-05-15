@@ -6,7 +6,7 @@
       
       <v-toolbar-title>
         <!-- Twitter -->
-        <v-btn icon>
+        <v-btn icon class="mr-2">
             <v-icon>mdi-twitter</v-icon>
         </v-btn>
       </v-toolbar-title>
