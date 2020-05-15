@@ -13,12 +13,12 @@
             </router-link>
             
             <v-list-item-content> 
-                <v-list-item-title class="subtitle-2" style="position: relative; top: 4px;">
+                <v-list-item-title class="subtitle-2" style="position: relative; top: 2px;">
                     <router-link :to="`/profile/${comment.user.id}`" style="text-decoration: none;">
                         {{`${comment.user.firstname} ${comment.user.lastname}`}}
                     </router-link>
                 </v-list-item-title>
-                <v-list-item-subtitle class="caption text-lowercase" style="position: relative; bottom: 4px;">
+                <v-list-item-subtitle class="caption text-lowercase" style="position: relative; bottom: 5px;">
                     Replying to
                     <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none;">
                         @{{`${post.user.username}`}}

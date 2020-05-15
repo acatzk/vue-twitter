@@ -4,8 +4,9 @@
             Something went wrong in your connection...
         </div>
         <div class="text-center mt-5"
-            v-if="!posts"
+            v-if="$apollo.loading"
         >
+            <!-- <spinner /> -->
             <v-skeleton-loader
                 class="mx-auto"
                 type="list-item-avatar-two-line, card"    
@@ -23,34 +24,83 @@
             >
             <v-list-item>
 
-                <router-link :to="`/profile/${post.user.id}`" class="d-flex" style="text-decoration: none;">
-                    <v-list-item-avatar color="grey" >
-                        <v-img
-                            :src="userProfile(post)"
-                        ></v-img>
-                    </v-list-item-avatar>
+                <v-row class="justify-space-between">
+                    <router-link :to="`/profile/${post.user.id}`" class="d-flex ml-2" style="text-decoration: none;">
+                        <v-list-item-avatar color="grey" >
+                            <v-img
+                                :src="userProfile(post)"
+                            ></v-img>
+                        </v-list-item-avatar>
 
-                    <v-list-item-content>
-                        <v-list-item-title class="subtitle-2">
-                            <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none; position: relative; top: 4px;">
-                                {{ capitalize(`${post.user.firstname}`) + " " + capitalize(`${post.user.lastname}`) }}
-                            </router-link>
-                        </v-list-item-title>
-                        <v-list-item-subtitle class="caption text-lowercase" style="position: relative; bottom: 2px;">
-                            <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none; color: grey;">
-                                @{{`${post.user.username}`}}
-                            </router-link>
-                            <v-icon small class="mr-1">public</v-icon>
-                            <timeago :datetime="post.created_at" :auto-update="60"></timeago>
-                        </v-list-item-subtitle>
-                    </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-title class="subtitle-2">
+                                <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none; position: relative; top: 4px;">
+                                    {{ capitalize(`${post.user.firstname}`) + " " + capitalize(`${post.user.lastname}`) }}
+                                </router-link>
+                            </v-list-item-title>
+                            <v-list-item-subtitle class="caption text-lowercase" style="position: relative; bottom: 2px;">
+                                <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none; color: grey;">
+                                    @{{`${post.user.username}`}}
+                                </router-link>
+                                <v-icon small class="mr-1">public</v-icon>
+                                <timeago :datetime="post.created_at" :auto-update="60"></timeago>
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
 
-                </router-link>
+                    </router-link>
+
+                     <v-menu button>
+                        <template v-slot:activator="{ on }">
+                            <v-btn icon v-on="on" class="ma-3">
+                                <v-icon>expand_more</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list dense>
+                            <v-list-item-group color="blue" style="font-size: 10px;">
+                                <v-list-item
+                                    v-if="currentUserId.uid === post.user.id"
+                                >
+                                    <v-list-item-icon>
+                                        <v-icon>cached</v-icon>
+                                    </v-list-item-icon>
+
+                                    <v-list-item-content>
+                                        <v-list-item-title>Edit</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                <v-list-item 
+                                    v-if="currentUserId.uid === post.user.id"
+                                >
+                                    <v-list-item-icon>
+                                        <v-icon>delete_outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Delete</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                  <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>av_timer</v-icon>
+                                    </v-list-item-icon>
+
+                                    <v-list-item-content>
+                                        <v-list-item-title>Hide</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list-item-group>
+                        </v-list>
+                    </v-menu>
+                </v-row>
+
             </v-list-item>
+            
 
             <!-- Posts -->
 
-            <router-link router :to="`/post/${post.id}`" style="text-decoration: none; color: grey;">
+            <router-link 
+                :to="`/post/${post.id}`" 
+                style="text-decoration: none; color: grey;">
+                
                 <div v-if="post.imageUrl">
                     <v-img
                         :src="post.imageUrl"
@@ -76,7 +126,7 @@
                             {{ post.comments_aggregate.aggregate.count }}
                         </v-btn>
                         <v-btn icon>
-                            <v-icon>transform</v-icon>
+                            <v-icon>repeat</v-icon>
                         </v-btn>
                         <v-btn icon>
                             <v-icon>mdi-heart-outline</v-icon>
@@ -117,14 +167,20 @@ export default {
     },
 
     apollo: {
-        $subscribe: {
-            posts: {
+        // $subscribe: {
+        //     posts: {
+        //         query: GET_ALL_POSTS,
+        //         result({ data }) {
+        //             this.posts = data.posts
+        //         }
+        //     }
+        // },
+        posts: {
                 query: GET_ALL_POSTS,
                 result({ data }) {
                     this.posts = data.posts
                 }
             }
-        },
         // $subscribe: {
         //     follow: {
         //         query: GET_USERS_FOLLOWING_POSTS_SUBSCRIPTION,
