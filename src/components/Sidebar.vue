@@ -16,11 +16,11 @@
             
                 <v-list-item-content>
                     <!-- style="position: relative !important; top: 4px !important;" -->
-                    <v-list-item-title class="subtitle-2" >
+                    <v-list-item-title class="subtitle-2" style="text-decoration: none; position: relative; top: 4px;">
                         {{capitalize(`${user.firstname}`) + " " + capitalize(`${user.lastname}`)}}
                     </v-list-item-title>
                     <!-- style="position: relative !important; bottom: 4px !important;" -->
-                    <v-list-item-subtitle class="text-lowercase caption">
+                    <v-list-item-subtitle class="text-lowercase caption" style="position: relative; bottom: 2px;">
                         @{{`${user.username}`}}
                     </v-list-item-subtitle>
                 </v-list-item-content>

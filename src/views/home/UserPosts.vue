@@ -18,9 +18,8 @@
                 class="mx-auto mb-2"
                 flat
                 outlined
-                hover
                 style="text-decoration: none;"
-                router :to="`/post/${post.id}`"
+            
             >
             <v-list-item>
 
@@ -33,11 +32,11 @@
 
                     <v-list-item-content>
                         <v-list-item-title class="subtitle-2">
-                            <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none;">
+                            <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none; position: relative; top: 4px;">
                                 {{ capitalize(`${post.user.firstname}`) + " " + capitalize(`${post.user.lastname}`) }}
                             </router-link>
                         </v-list-item-title>
-                        <v-list-item-subtitle class="caption text-lowercase">
+                        <v-list-item-subtitle class="caption text-lowercase" style="position: relative; bottom: 2px;">
                             <router-link :to="`/profile/${post.user.id}`" style="text-decoration: none; color: grey;">
                                 @{{`${post.user.username}`}}
                             </router-link>
@@ -49,24 +48,30 @@
                 </router-link>
             </v-list-item>
 
-            <div v-if="post.imageUrl">
-                <v-img
-                    :src="post.imageUrl"
-                    height="194"
-                ></v-img>
-            </div>
+            <!-- Posts -->
 
-
-            <v-card-text :class="!post.imageUrl ? 'title' : 'subtitle-2'">
-                <div :class="post.caption.length <= 100 ? 'title' : 'subtitle-2'">
-                     {{ post.caption }}
+            <router-link router :to="`/post/${post.id}`" style="text-decoration: none; color: grey;">
+                <div v-if="post.imageUrl">
+                    <v-img
+                        :src="post.imageUrl"
+                        height="194"
+                    ></v-img>
                 </div>
-            </v-card-text>
+
+
+                <v-card-text :class="!post.imageUrl ? 'title' : 'subtitle-2'">
+                    <div :class="post.caption.length <= 100 ? 'title' : 'subtitle-2'">
+                        {{ post.caption }}
+                    </div>
+                </v-card-text>
+            </router-link>
+
+            <!-- End Posts -->
 
             <v-card-actions>
                 <v-list-item class="grow">
                     <v-row class="justify-space-between">
-                        <v-btn icon>
+                        <v-btn icon :to="`/post/${post.id}`">
                             <v-icon>chat_bubble_outline</v-icon>
                             {{ post.comments_aggregate.aggregate.count }}
                         </v-btn>
@@ -152,6 +157,7 @@ export default {
                 return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
             }
         },
-    },
+    }
+
 }
 </script>
