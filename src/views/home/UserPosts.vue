@@ -49,14 +49,21 @@
 
                     </router-link>
 
-                     <v-menu button>
+                     <v-bottom-sheet 
+                        inset
+                        style="width: 100px !important;"
+                     >
                         <template v-slot:activator="{ on }">
                             <v-btn icon v-on="on" class="ma-3">
                                 <v-icon>expand_more</v-icon>
                             </v-btn>
                         </template>
-                        <v-list dense>
-                            <v-list-item-group color="blue" style="font-size: 10px;">
+                        <v-sheet 
+                            class="text-center" 
+                            :height="currentUserId.uid === post.user.id ? '170px' : '10    0px'"
+                        >
+                           <v-list-item-group color="blue">
+                               <!-- <v-subheader>Options</v-subheader> -->
                                 <v-list-item
                                     v-if="currentUserId.uid === post.user.id"
                                 >
@@ -88,8 +95,9 @@
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list-item-group>
-                        </v-list>
-                    </v-menu>
+                        </v-sheet>
+                    </v-bottom-sheet>
+
                 </v-row>
 
             </v-list-item>
