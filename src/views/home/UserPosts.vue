@@ -148,35 +148,6 @@ import { GET_ALL_POSTS } from '@/graphql/queries/getAllPosts'
 // import { GET_USERS_FOLLOWING_POSTS_SUBSCRIPTION } from '@/graphql/queries/getUsersFollowingPosts'
 import Spinner from '@/components/Spinner.vue'
 import { fb } from '@/firebase'
-import gql from 'graphql-tag'
-
-const GET_ALL_POSTS_SUBSCRIPTION = gql`
-subscription getAllPosts {
-  posts(order_by: {created_at: desc}) {
-    id
-    imageUrl
-    caption
-    user_id
-    created_at
-    likes
-    user {
-      id
-      firstname
-      lastname
-      username
-      profile {
-        id
-        avatarUrl
-      }
-    }
-    comments_aggregate {
-      aggregate {
-        count
-      }
-    }
-  }
-}
-`
 
 export default {
     name: 'PostCard',
@@ -196,14 +167,6 @@ export default {
     },
 
     apollo: {
-        $subscribe: {
-            posts: {
-                query: GET_ALL_POSTS_SUBSCRIPTION,
-                result({ data }) {
-                    this.subscribePosts = data.posts
-                }
-            }
-        },
         posts: {
             query: GET_ALL_POSTS,
             result({ data }) {
