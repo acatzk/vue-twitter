@@ -23,6 +23,7 @@ const wsLink = new WebSocketLink({
   options: {
     timeout: 60000,
     reconnect: true,
+    timeout: 30000,
     connectionParams() {
       return {
         headers: {

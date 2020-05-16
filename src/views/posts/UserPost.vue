@@ -214,20 +214,21 @@ export default {
                     this.count = data.comments_aggregate.aggregate
                 }
             },
-
-            react_aggregate: {
-                query: GET_REACT_COUNT,
-                variables() {
-                    return {
-                        post_id: this.$route.params.id
-                    }
-                },
-                result({ data }) {
-                    this.reactCount = data.react_aggregate.aggregate
-                }
-            }
             
-       },  
+       },
+
+       react_aggregate: {
+            query: GET_REACT_COUNT,
+            variables() {
+                return {
+                    post_id: this.$route.params.id
+                }
+            },
+            result({ data }) {
+                this.reactCount = data.react_aggregate.aggregate
+            }
+        }
+        
         
 
 
@@ -279,14 +280,16 @@ export default {
         },
         reactButton(post) {
             this.reactLoading = true
-            if (this.reactCount.count === 0) {
+            // const userCurrentReacted = this.react_aggregate.nodes ? this.react_aggregate.nodes.user.id : ''
+            //  === 0 && userCurrentReacted !== auth_user_id.uid
+            if (this.react_aggregate.aggregate.count === 0) {
                 this.$apollo.mutate({
                     mutation: REACT_USER_MUTATION,
                     variables: {
                         post_id: post.id, 
                         user_id: this.auth_user_id.uid
                     },
-                    refetchQueries: ['getReactCount']
+                    refetchQueries: ['getUserPostComments']
                 }).then(() => {
                     this.reactLoading = false
                 }).catch(error => console.log(error))
@@ -297,7 +300,7 @@ export default {
                         post_id: this.$route.params.id,
                         user_id: this.auth_user_id.uid
                     },
-                    refetchQueries: ['getReactCount']
+                    refetchQueries: ['getUserPostComments']
                 }).then(() => {
                     this.reactLoading = false
                 }).catch(error => console.log(error))
