@@ -62,7 +62,7 @@
                             class="text-center" 
                             :height="currentUserId.uid === post.user.id ? '170px' : '55px'"
                         >
-                           <v-list-item-group color="blue">
+                           <v-list-item-group>
                                <!-- <v-subheader>Options</v-subheader> -->
                                 <v-list-item
                                     v-if="currentUserId.uid === post.user.id"
