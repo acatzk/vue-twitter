@@ -65,16 +65,8 @@
         style="position: fixed;"
         >
  
-        <side-bar/>
+        <side-bar/> <!-- this is navaba -->
 
-        <!-- <template v-slot:append>
-            <v-btn block text>
-                <v-list-item-content>
-                    <v-list-item-title>Joshua Galit</v-list-item-title>
-                </v-list-item-content>
-                <v-icon>keyboard_arrow_down</v-icon>
-            </v-btn>
-        </template> -->
       </v-navigation-drawer>
   </nav>
 </template>
