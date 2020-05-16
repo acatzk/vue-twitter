@@ -16,3 +16,19 @@ query ($id: String!) {
   }
 }
 `
+export const GET_ALL_USERS_SEARCH_QUERY = gql`
+query ($id: String!) {
+  users(order_by: { created_at: asc }) {
+    id
+    firstname
+    lastname
+    email
+    username
+    password
+    profile {
+      id
+      avatarUrl
+    }
+  }
+}
+`
