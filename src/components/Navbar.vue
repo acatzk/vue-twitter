@@ -11,18 +11,47 @@
         </v-btn>
       </v-toolbar-title>
       
-       <v-text-field
-            dense
-            label="Search"
-            solo
-            rounded
-            dark
-            flat
-            hide-details single-line
-            background-color="blue darken-2"
-            class="ml-5 font-weight-bold"
-            v-bind="user_profile"
-        ></v-text-field>
+      <v-menu offset-y button>
+            <template v-slot:activator="{ on }">
+                <v-text-field
+                    v-on="on"
+                    dense
+                    label="Search"
+                    solo
+                    rounded
+                    dark
+                    flat
+                    hide-details single-line
+                    background-color="blue"
+                    class="ml-5 font-weight-bold"
+                    v-model="user"
+                    autocomplete="off"
+                    @input="filterUsers"
+                    @focus="modal = true"
+                ></v-text-field>
+            </template>
+            <v-list v-if="filteredUsers && modal">
+                <v-list-item-group>
+                    <v-list-item 
+                        v-for="(filteredUser, index) in filteredUsers" :key="index"
+                        link :to="`/profile/${filteredUser.id}`"
+                    >
+                        <v-list-item-avatar>
+                            <img :src="userProfile(filteredUser)">
+                        </v-list-item-avatar>
+
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                {{ capitalize(filteredUser.firstname) + " " + capitalize(filteredUser.lastname) }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle class="d-flex">
+                                @{{ filteredUser.lastname }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>     
+        </v-menu>
 
       <v-spacer></v-spacer>
 
@@ -76,6 +105,7 @@
 
 import { fb } from '@/firebase'
 import SideBar from './Sidebar'
+import { GET_ALL_USERS_SEARCH_QUERY } from '@/graphql/queries/getListOfUsers'
 
 export default {
     name: 'Navbar',
@@ -85,7 +115,6 @@ export default {
     data() {
         return {
             drawer: false,
-            model: 1,
             links: [
                 { title: 'Home', icon: 'storefront', to: '/' },
                 { title: 'Explore', icon: 'card_travel', to: '/explore' },
@@ -106,7 +135,10 @@ export default {
                     ] 
                 }
             ],
-            user_profile: ''
+            user: '',
+            users: [],
+            filteredUsers: [],
+            modal: false
         }
     },
     methods: {
@@ -121,8 +153,38 @@ export default {
         capitalize(s) {
             if (typeof s !== 'string') return ''
             return s.charAt(0).toUpperCase() + s.slice(1)
+        },
+
+        filterUsers() {
+            this.filteredUsers = this.users.filter(user => {
+                return user.firstname.toLowerCase().startsWith(this.user.toLowerCase())
+            })
+        },
+
+        userProfile(filteredUser) {
+            if (filteredUser.profile) {
+                if (filteredUser.profile.avatarUrl !== '') {
+                    return filteredUser.profile.avatarUrl
+                } else {
+                    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+                }
+            } else {
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+            }
+        },
+
+
+    },
+
+    apollo: {
+        users: {
+            query: GET_ALL_USERS_SEARCH_QUERY,
+            result({ data }) {
+                this.users = data.users
+            }
         }
     }
+
     
 }
 </script>
