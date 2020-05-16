@@ -28,6 +28,7 @@
                     autocomplete="off"
                     @input="filterUsers"
                     @focus="modal = true"
+                    clearable
                 ></v-text-field>
             </template>
             <v-list v-if="filteredUsers && modal">
@@ -157,8 +158,7 @@ export default {
 
         filterUsers() {
             this.filteredUsers = this.users.filter(user => {
-                return user.firstname.toLowerCase().startsWith(this.user.toLowerCase()) 
-                        ||  user.lastname.toLowerCase().startsWith(this.user.toLowerCase())
+                return user.firstname.toLowerCase().startsWith(this.user.toLowerCase()) ||  user.lastname.toLowerCase().startsWith(this.user.toLowerCase())
             })
         },
 
