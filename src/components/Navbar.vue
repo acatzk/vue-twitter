@@ -27,7 +27,7 @@
                     v-model="user"
                     autocomplete="off"
                     @input="filterUsers"
-                    @focus="modal = true"
+                    @blur="modal = true"
                     clearable
                 ></v-text-field>
             </template>
@@ -46,7 +46,7 @@
                                 {{ capitalize(filteredUser.firstname) + " " + capitalize(filteredUser.lastname) }}
                             </v-list-item-title>
                             <v-list-item-subtitle class="d-flex">
-                                @{{ filteredUser.lastname }}
+                                @{{ filteredUser.username }}
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
