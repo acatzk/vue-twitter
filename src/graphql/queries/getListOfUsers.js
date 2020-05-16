@@ -22,6 +22,7 @@ query {
     id
     firstname
     lastname
+    username
     profile {
       id
       avatarUrl
