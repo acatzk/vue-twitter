@@ -20,7 +20,7 @@
             flat
             hide-details single-line
             background-color="blue darken-2"
-            class="ml-5"
+            class="ml-5 font-weight-bold"
         ></v-text-field>
 
       <v-spacer></v-spacer>
