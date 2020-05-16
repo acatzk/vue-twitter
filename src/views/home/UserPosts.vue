@@ -51,7 +51,6 @@
 
                      <v-bottom-sheet 
                         inset
-                        style="width: 100px !important;"
                      >
                         <template v-slot:activator="{ on }">
                             <v-btn icon v-on="on" class="ma-3">
