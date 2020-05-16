@@ -21,6 +21,7 @@
             hide-details single-line
             background-color="blue darken-2"
             class="ml-5 font-weight-bold"
+            v-bind="user_profile"
         ></v-text-field>
 
       <v-spacer></v-spacer>
@@ -104,7 +105,8 @@ export default {
                         { text: 'Other contacts', icon: 'perm_identity', to: "others" }
                     ] 
                 }
-            ]
+            ],
+            user_profile: ''
         }
     },
     methods: {
