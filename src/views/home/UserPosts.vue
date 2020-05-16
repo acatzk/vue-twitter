@@ -60,7 +60,7 @@
                         </template>
                         <v-sheet 
                             class="text-center" 
-                            :height="currentUserId.uid === post.user.id ? '170px' : '10    0px'"
+                            :height="currentUserId.uid === post.user.id ? '170px' : '55px'"
                         >
                            <v-list-item-group color="blue">
                                <!-- <v-subheader>Options</v-subheader> -->
