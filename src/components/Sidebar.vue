@@ -152,8 +152,8 @@ export default {
         logout() {
             fb.auth().signOut()
                 .then(() => {
-                    // location.reload()
-                    this.$router.replace('/login')
+                    location.reload()
+                    // this.$router.replace('/login')
                 })
                 .catch(error => console.log(error))
         },
