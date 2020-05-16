@@ -157,7 +157,8 @@ export default {
 
         filterUsers() {
             this.filteredUsers = this.users.filter(user => {
-                return user.firstname.toLowerCase().startsWith(this.user.toLowerCase()) ||  user.lastname.toLowerCase().startsWith(this.user.toLowerCase())
+                return user.firstname.toLowerCase().startsWith(this.user.toLowerCase()) 
+                        ||  user.lastname.toLowerCase().startsWith(this.user.toLowerCase())
             })
         },
 
