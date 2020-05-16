@@ -11,7 +11,7 @@
         </v-btn>
       </v-toolbar-title>
       
-      <v-menu offset-y button>
+      <v-menu offset-y>
             <template v-slot:activator="{ on }">
                 <v-text-field
                     v-on="on"
