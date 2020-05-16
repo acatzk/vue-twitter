@@ -36,6 +36,7 @@
                     :to="item.title === 'Profile' ? `/profile/${user_id ? user_id.uid : ''}` : item.to"
                     color="blue darken-1"
                 >
+
                     <v-list-item-icon>
                         <v-icon>{{ item.icon }}</v-icon>
                     </v-list-item-icon>
@@ -115,7 +116,7 @@ export default {
             user_id: fb.auth().currentUser,
             model: 1,
             links: [
-                { title: 'Home', icon: 'storefront', to: '/' },
+                { title: 'Home', icon: 'storefront', to: '/'},
                 { title: 'Explore', icon: 'card_travel', to: '/explore' },
                 { title: 'Notifications', icon: 'notifications_none', to: '/notifications' },
                 { title: 'Messages', icon: 'mail_outline', to: '/messages' },
