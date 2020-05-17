@@ -105,7 +105,7 @@
                                 </v-list-item>
 
                                 <v-list-item dense 
-                                    @click="copyLinkPost"
+                                    @click="copyLinkPost(post)"
                                 >
                                     <v-list-item-icon>
                                         <v-icon>link</v-icon>
@@ -117,6 +117,20 @@
                             </v-list-item-group>
                         </v-sheet>
                     </v-bottom-sheet>
+
+                    <v-snackbar
+                        v-model="snackbar"
+                        :timeout="timeout"
+                    >
+                    Copied Link {{ snackbarText }}
+                    <v-btn
+                        color="blue"
+                        text
+                        @click="snackbar = false"
+                    >
+                        Close
+                    </v-btn>
+                    </v-snackbar>
 
                 </v-row>
 
@@ -186,7 +200,10 @@ export default {
             subscribePosts: [],
             followingUsersPosts: [],
             loading: true,
-            currentUserId: fb.auth().currentUser
+            currentUserId: fb.auth().currentUser,
+            snackbar: false,
+            snackbarText: '',
+            timeout: 1000
         }
     },
 
@@ -227,8 +244,10 @@ export default {
         editPost() {
             alert('Edit Posts')
         },
-        copyLinkPost() {
-            alert('Copy Link')
+        copyLinkPost(post) {
+            post.id = document.execCommand('copy')
+            this.snackbarText = post.id
+            this.snackbar = true
         },
         capitalize(s) {
             if (typeof s !== 'string') return ''
