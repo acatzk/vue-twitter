@@ -20,7 +20,6 @@
                 flat
                 outlined
                 style="text-decoration: none;"
-            
             >
             <v-list-item>
 
@@ -51,6 +50,7 @@
 
                      <v-bottom-sheet 
                         inset
+                        width="400"
                      >
                         <template v-slot:activator="{ on }">
                             <v-btn icon v-on="on" class="ma-3">
@@ -58,39 +58,60 @@
                             </v-btn>
                         </template>
                         <v-sheet 
-                            class="text-center" 
-                            :height="currentUserId.uid === post.user.id ? '170px' : '55px'"
+                            flat
+                            class="text-left" 
+                            :height="currentUserId.uid === post.user.id ? '200px' : '120px'"
                         >
                            <v-list-item-group>
-                               <!-- <v-subheader>Options</v-subheader> -->
-                                <v-list-item
+                                <v-list-item dense>
+                                    <v-list-item-icon>
+                                        <v-icon>bookmark_outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Save Post</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+
+                                <v-list-item dense :to="`/profile/${post.user.id}`">
+                                     <v-list-item-icon>
+                                        <v-icon>photo_album</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>View Post</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+
+                                <v-list-item 
+                                    dense
                                     v-if="currentUserId.uid === post.user.id"
                                 >
                                     <v-list-item-icon>
-                                        <v-icon>cached</v-icon>
+                                        <v-icon>create</v-icon>
                                     </v-list-item-icon>
-
                                     <v-list-item-content>
-                                        <v-list-item-title>Edit</v-list-item-title>
+                                        <v-list-item-title>Delete Post</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item 
+
+                                <v-list-item dense
                                     v-if="currentUserId.uid === post.user.id"
                                 >
                                     <v-list-item-icon>
                                         <v-icon>delete_outline</v-icon>
                                     </v-list-item-icon>
-                                    <v-list-item-content @click="deletePosts(post)" :loading="loading">
-                                        <v-list-item-title>Delete</v-list-item-title>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Edit Post</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
-                                  <v-list-item>
-                                    <v-list-item-icon>
-                                        <v-icon>av_timer</v-icon>
-                                    </v-list-item-icon>
 
+                                <v-list-item dense 
+                                    @click="copyLinkPost"
+                                >
+                                    <v-list-item-icon>
+                                        <v-icon>link</v-icon>
+                                    </v-list-item-icon>
                                     <v-list-item-content>
-                                        <v-list-item-title>Hide</v-list-item-title>
+                                        <v-list-item-title>Copy link</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list-item-group>
@@ -197,7 +218,19 @@ export default {
 
 
     methods: {
-         capitalize(s) {
+        savePost() {
+            alert('Save Posts')
+        },
+        viewPost() {
+            alert('View Posts')
+        },
+        editPost() {
+            alert('Edit Posts')
+        },
+        copyLinkPost() {
+            alert('Copy Link')
+        },
+        capitalize(s) {
             if (typeof s !== 'string') return ''
             return s.charAt(0).toUpperCase() + s.slice(1)
         },
@@ -214,24 +247,25 @@ export default {
         },
 
         deletePosts(post)  {
-            this.loading = true
-            this.$apollo.mutate({
-                mutation: 
-                    gql `mutation ($post_id: uuid!) {
-                        delete_posts(where: {id: {_eq: $post_id}}) {
-                            returning {
-                                id
-                            }
-                        }
-                    }
-                    `,
-                variables: {
-                     post_id: post.id
-                },
-                refetchQueries: ['getAllPosts']
-            }).then(() => {
-                this.loading = false
-            })
+             alert('Delete Posts')
+            // this.loading = true
+            // this.$apollo.mutate({
+            //     mutation: 
+            //         gql `mutation ($post_id: uuid!) {
+            //             delete_posts(where: {id: {_eq: $post_id}}) {
+            //                 returning {
+            //                     id
+            //                 }
+            //             }
+            //         }
+            //         `,
+            //     variables: {
+            //          post_id: post.id
+            //     },
+            //     refetchQueries: ['getAllPosts']
+            // }).then(() => {
+            //     this.loading = false
+            // })
         }
     }
 
