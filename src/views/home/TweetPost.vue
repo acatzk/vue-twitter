@@ -78,7 +78,7 @@ export default {
                     imageUrl: imageSource,
                     caption: tweet,
                 },
-                refetchQueries: ['getAllPosts', 'getUser', 'getUserPosts']
+                refetchQueries: ['getUser', 'getUserPosts']
             }).then(() => {
                 this.loading = false
                 this.tweet = ''
