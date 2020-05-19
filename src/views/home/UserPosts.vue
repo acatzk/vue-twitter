@@ -187,8 +187,9 @@
 
 <script>
 
-import { GET_ALL_POSTS } from '@/graphql/queries/getAllPosts'
-import { DELETE_POST_MUTATION } from '@/graphql/mutations/deletePost'
+import { GET_ALL_POSTS } from '@/graphql/queries/getAllPosts' // query
+import { DELETE_POST_MUTATION } from '@/graphql/mutations/deletePost' // mutation
+import { GET_ALL_POSTS_SUBSCRIPTION } from '@/graphql/subscriptions/getAllPosts' // subscription
 // import { GET_USERS_FOLLOWING_POSTS_SUBSCRIPTION } from '@/graphql/queries/getUsersFollowingPosts'
 import Spinner from '@/components/Spinner.vue'
 import { fb } from '@/firebase'
@@ -216,8 +217,18 @@ export default {
     apollo: {
         posts: {
             query: GET_ALL_POSTS,
-            result({ data }) {
-                this.posts = data.posts
+            subscribeToMore: {
+                document: GET_ALL_POSTS_SUBSCRIPTION,
+                updateQuery(previousResult, { subscriptionData }) {
+                    if (previousResult) {
+                        return {
+                            posts: [
+                                ...subscriptionData.data.posts,
+                                ...previousResult.posts
+                            ]
+                        }
+                    }
+                }
             }
         }
         // $subscribe: {
@@ -268,20 +279,14 @@ export default {
         },
 
         deletePosts(post)  {
-            //  alert('Delete Posts')
-            const confirmation = confirm("Are you sure you want to delete?")
-            if (confirmation) {
+            if (confirm("Are you sure you want to delete?")) {
                 this.$apollo.mutate({
                     mutation: DELETE_POST_MUTATION,
-                    variables() {
-                        return {
-                            post_id: post.id
-                        }
+                    variables: {
+                        post_id: post.id
                     },
                     refetchQueries: ['getAllPosts']
-                }).then(() => {
-                    
-                })
+                }).catch(error => console.log(error))
             }
         }
     }
