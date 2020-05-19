@@ -188,6 +188,7 @@
 <script>
 
 import { GET_ALL_POSTS } from '@/graphql/queries/getAllPosts'
+import { DELETE_POST_MUTATION } from '@/graphql/mutations/deletePost'
 // import { GET_USERS_FOLLOWING_POSTS_SUBSCRIPTION } from '@/graphql/queries/getUsersFollowingPosts'
 import Spinner from '@/components/Spinner.vue'
 import { fb } from '@/firebase'
@@ -270,17 +271,11 @@ export default {
             //  alert('Delete Posts')
             this.loading = true
             this.$apollo.mutate({
-                mutation: 
-                    gql `mutation ($post_id: uuid!) {
-                        delete_posts(where: {id: {_eq: $post_id}}) {
-                            returning {
-                                id
-                            }
-                        }
+                mutation: DELETE_POST_MUTATION,
+                variables() {
+                    return {
+                        post_id: post.id
                     }
-                    `,
-                variables: {
-                     post_id: post.id
                 },
                 refetchQueries: ['getAllPosts']
             }).then(() => {
