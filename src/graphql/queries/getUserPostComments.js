@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const GET_USER_POST_COMMENTS = gql`
 subscription getUserPostComments($post_id: uuid!) {
-  comments(where: {post_id: {_eq: $post_id}}, order_by: {created_at: desc}) {
+  comments(where: {post_id: {_eq: $post_id}}, order_by: {created_at: asc}) {
     id
     user_id
     message
