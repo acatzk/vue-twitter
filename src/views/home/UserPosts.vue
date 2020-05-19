@@ -84,9 +84,10 @@
                                 <v-list-item 
                                     dense
                                     v-if="currentUserId.uid === post.user.id"
+                                    @click="deletePosts(post)"
                                 >
                                     <v-list-item-icon>
-                                        <v-icon>create</v-icon>
+                                        <v-icon>delete_outline</v-icon>
                                     </v-list-item-icon>
                                     <v-list-item-content>
                                         <v-list-item-title>Delete Post</v-list-item-title>
@@ -97,7 +98,7 @@
                                     v-if="currentUserId.uid === post.user.id"
                                 >
                                     <v-list-item-icon>
-                                        <v-icon>delete_outline</v-icon>
+                                        <v-icon>create</v-icon>
                                     </v-list-item-icon>
                                     <v-list-item-content>
                                         <v-list-item-title>Edit Post</v-list-item-title>
@@ -266,25 +267,25 @@ export default {
         },
 
         deletePosts(post)  {
-             alert('Delete Posts')
-            // this.loading = true
-            // this.$apollo.mutate({
-            //     mutation: 
-            //         gql `mutation ($post_id: uuid!) {
-            //             delete_posts(where: {id: {_eq: $post_id}}) {
-            //                 returning {
-            //                     id
-            //                 }
-            //             }
-            //         }
-            //         `,
-            //     variables: {
-            //          post_id: post.id
-            //     },
-            //     refetchQueries: ['getAllPosts']
-            // }).then(() => {
-            //     this.loading = false
-            // })
+            //  alert('Delete Posts')
+            this.loading = true
+            this.$apollo.mutate({
+                mutation: 
+                    gql `mutation ($post_id: uuid!) {
+                        delete_posts(where: {id: {_eq: $post_id}}) {
+                            returning {
+                                id
+                            }
+                        }
+                    }
+                    `,
+                variables: {
+                     post_id: post.id
+                },
+                refetchQueries: ['getAllPosts']
+            }).then(() => {
+                this.loading = false
+            })
         }
     }
 
