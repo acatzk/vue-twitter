@@ -269,18 +269,20 @@ export default {
 
         deletePosts(post)  {
             //  alert('Delete Posts')
-            this.loading = true
-            this.$apollo.mutate({
-                mutation: DELETE_POST_MUTATION,
-                variables() {
-                    return {
-                        post_id: post.id
-                    }
-                },
-                refetchQueries: ['getAllPosts']
-            }).then(() => {
-                this.loading = false
-            })
+            const confirmation = confirm("Are you sure you want to delete?")
+            if (confirmation) {
+                this.$apollo.mutate({
+                    mutation: DELETE_POST_MUTATION,
+                    variables() {
+                        return {
+                            post_id: post.id
+                        }
+                    },
+                    refetchQueries: ['getAllPosts']
+                }).then(() => {
+                    
+                })
+            }
         }
     }
 
