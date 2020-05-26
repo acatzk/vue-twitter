@@ -223,27 +223,13 @@ export default {
                     if (previousResult) {
                         return {
                             posts: [
-                                ...subscriptionData.data.posts,
-                                ...previousResult.posts
+                                ...subscriptionData.data.posts
                             ]
                         }
                     }
                 }
             }
         }
-        // $subscribe: {
-        //     follow: {
-        //         query: GET_USERS_FOLLOWING_POSTS_SUBSCRIPTION,
-        //         variables() {
-        //             return {
-        //                 follower_id: this.currentUserId.uid
-        //             }
-        //         }, 
-        //         result({ data }) {
-        //             this.followingUsersPosts = data.follow
-        //         }
-        //     }
-        // }
     },
 
 
