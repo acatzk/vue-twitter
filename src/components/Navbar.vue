@@ -15,20 +15,18 @@
             <template v-slot:activator="{ on }">
                 <v-text-field
                     v-on="on"
-                    dense
-                    label="Search"
-                    solo
-                    rounded
-                    dark
+                    solo-inverted
                     flat
-                    hide-details single-line
-                    background-color="blue"
-                    class="ml-5 font-weight-bold"
+                    dense
+                    hide-details
+                    label="Search"
+                    prepend-inner-icon="search"
+                    color="blue ml-5 font-weight-bold"
+                    clearable
                     v-model="user"
                     autocomplete="off"
                     @input="filterUsers"
                     @blur="modal = true"
-                    clearable
                 ></v-text-field>
             </template>
             <v-list v-if="filteredUsers && modal">
