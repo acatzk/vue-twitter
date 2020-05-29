@@ -24,7 +24,7 @@
             <v-list-item>
 
                 <v-row class="justify-space-between">
-                    <router-link :to="`/profile/${post.user.id}`" class="d-flex ml-2" style="text-decoration: none;">
+                    <router-link :to="`/profile/${post.user.id}`" class="d-flex ml-2 " style="text-decoration: none;">
                         <v-list-item-avatar color="grey" >
                             <v-img
                                 :src="userProfile(post)"
@@ -51,6 +51,7 @@
                      <v-bottom-sheet 
                         inset
                         width="400"
+                        style="position: absolute;"
                      >
                         <template v-slot:activator="{ on }">
                             <v-btn icon v-on="on" class="ma-3">
@@ -118,7 +119,7 @@
                             </v-list-item-group>
                         </v-sheet>
                     </v-bottom-sheet>
-
+<!-- 
                     <v-snackbar
                         v-model="snackbar"
                         :timeout="timeout"
@@ -131,7 +132,7 @@
                     >
                         Close
                     </v-btn>
-                    </v-snackbar>
+                    </v-snackbar> -->
 
                 </v-row>
 
