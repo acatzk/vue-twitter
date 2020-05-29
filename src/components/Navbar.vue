@@ -6,7 +6,7 @@
       
       <v-toolbar-title>
         <!-- Twitter -->
-        <v-btn icon class="mr-2">
+        <v-btn icon>
             <v-icon>mdi-twitter</v-icon>
         </v-btn>
       </v-toolbar-title>
@@ -14,6 +14,7 @@
       <v-menu offset-y>
             <template v-slot:activator="{ on }">
                 <v-text-field
+                    class="ml-4"
                     v-on="on"
                     solo-inverted
                     flat
@@ -21,7 +22,7 @@
                     hide-details
                     label="Search"
                     prepend-inner-icon="search"
-                    color="blue ml-5 font-weight-bold"
+                    color="blue font-weight-bold"
                     clearable
                     v-model="user"
                     autocomplete="off"
