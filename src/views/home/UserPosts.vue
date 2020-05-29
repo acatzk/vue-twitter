@@ -147,7 +147,6 @@
                 <div v-if="post.imageUrl">
                     <v-img
                         :src="post.imageUrl"
-                        height="194"
                     ></v-img>
                 </div>
 
