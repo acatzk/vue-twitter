@@ -9,14 +9,10 @@
            </v-col>
            <!-- End if -->
 
-          <!-- if the responsive point into medius size close this -->
            <v-col cols="12" md="6">
-             <div v-if="this.$route.path == '/'">
-                <tweet-post />  <!--  Add Posts components -->
-             </div>
+              <tweet-post v-if="this.$route.path == '/'" />  <!--  Add Posts components -->
              <router-view /> <!--  Dynamic content -->
            </v-col>
-           <!-- End if -->
 
            <!-- SideNews -->
            <v-col cols="12" md="3" class="hidden-sm-and-down">
