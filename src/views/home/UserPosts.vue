@@ -48,23 +48,16 @@
 
                     </router-link>
 
-                     <v-bottom-sheet 
-                        inset
-                        width="400"
-                        style="position: absolute;"
-                     >
+
+                     <v-menu offset-y button>
                         <template v-slot:activator="{ on }">
-                            <v-btn icon v-on="on" class="ma-3">
+                            <v-btn icon v-on="on" class="ma-2">
                                 <v-icon>expand_more</v-icon>
                             </v-btn>
                         </template>
-                        <v-sheet 
-                            flat
-                            class="text-left" 
-                            :height="currentUserId.uid === post.user.id ? '200px' : '120px'"
-                        >
-                           <v-list-item-group>
-                                <v-list-item dense>
+                        <v-list dense>
+                            <v-list-item-group>
+                                <v-list-item>
                                     <v-list-item-icon>
                                         <v-icon>bookmark_outline</v-icon>
                                     </v-list-item-icon>
@@ -73,8 +66,8 @@
                                     </v-list-item-content>
                                 </v-list-item>
 
-                                <v-list-item dense :to="`/profile/${post.user.id}`">
-                                     <v-list-item-icon>
+                                <v-list-item :to="`/profile/${post.user.id}`">
+                                    <v-list-item-icon>
                                         <v-icon>photo_album</v-icon>
                                     </v-list-item-icon>
                                     <v-list-item-content>
@@ -83,7 +76,6 @@
                                 </v-list-item>
 
                                 <v-list-item 
-                                    dense
                                     v-if="currentUserId.uid === post.user.id"
                                     @click="deletePosts(post)"
                                 >
@@ -95,7 +87,7 @@
                                     </v-list-item-content>
                                 </v-list-item>
 
-                                <v-list-item dense
+                                <v-list-item 
                                     v-if="currentUserId.uid === post.user.id"
                                 >
                                     <v-list-item-icon>
@@ -106,7 +98,7 @@
                                     </v-list-item-content>
                                 </v-list-item>
 
-                                <v-list-item dense 
+                                <v-list-item 
                                     @click="copyLinkPost(post)"
                                 >
                                     <v-list-item-icon>
@@ -117,23 +109,10 @@
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list-item-group>
-                        </v-sheet>
-                    </v-bottom-sheet>
-<!-- 
-                    <v-snackbar
-                        v-model="snackbar"
-                        :timeout="timeout"
-                    >
-                    Copied Link {{ snackbarText }}
-                    <v-btn
-                        color="blue"
-                        text
-                        @click="snackbar = false"
-                    >
-                        Close
-                    </v-btn>
-                    </v-snackbar> -->
-
+                        </v-list>
+                        
+                    </v-menu>
+                    
                 </v-row>
 
             </v-list-item>
