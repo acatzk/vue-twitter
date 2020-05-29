@@ -1,5 +1,12 @@
 <template>
     <div>
+        <v-card class="mb-2" flat outlined>
+            <v-breadcrumbs :items="items">
+                <template v-slot:divider>
+                    <v-icon>mdi-chevron-right</v-icon>
+                </template>
+            </v-breadcrumbs>
+        </v-card>
         <div class="text-center mt-5"
             v-if="$apollo.loading">
             <!-- <Spinner /> -->
@@ -155,7 +162,19 @@ export default {
             reactCount: 0,
             comments: [],
             users: [],
-            posts: []
+            posts: [],
+            items: [
+                {
+                    text: 'Twitter',
+                    disabled: false,
+                    to: '/',
+                },
+                {
+                    text: 'post',
+                    disabled: true,
+                    to: '/',
+                },
+            ],
         }
     },
 
