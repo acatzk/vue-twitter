@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const GET_ALL_POSTS_SUBSCRIPTION = gql`
 subscription getAllPostsSubscription {
-  posts(order_by: {created_at: desc}) {
+  posts(limit: 20, offset: 0, order_by: {created_at: desc}) {
     id
     imageUrl
     caption
