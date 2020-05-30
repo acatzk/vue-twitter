@@ -10,7 +10,7 @@
         <div  v-for="(user, index) in users" :key="index">
             <v-list-item link>
                 <v-list-item-avatar>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU">
+                    <img :src="userProfile(user.user)">
                 </v-list-item-avatar>
 
                 <v-list-item-content class="d-flex justify-space-between">
@@ -65,12 +65,16 @@ export default {
         follow: {
             query: gql`
                 query ($follower_id: String!) {
-                    follow (where: { follower_id: { _eq: $follower_id } }) {
+                    follow (where: { follower_id: { _eq: $follower_id } }, order_by: {created_at: desc}) {
                         user {
                             id
                             firstname
                             lastname
                             username
+                            profile {
+                                id
+                                avatarUrl
+                            }
                         }
                     }
                 }
@@ -78,6 +82,38 @@ export default {
             variables() {
                 return {
                     follower_id: this.current_id.uid
+                }
+            },
+            subscribeToMore: {
+                document: gql`
+                    subscription ($follower_id: String!) {
+                        follow (where: { follower_id: { _eq: $follower_id } }, order_by: {created_at: desc}) {
+                            user {
+                                id
+                                firstname
+                                lastname
+                                username
+                                profile {
+                                    id
+                                    avatarUrl
+                                }
+                            }
+                        }
+                    }
+                `,
+                updateQuery(previousResult, { subscriptionData }) {
+                    if (previousResult) {
+                        return {
+                            follow: [
+                                ...subscriptionData.data.follow
+                            ]
+                        }
+                    }
+                },
+                variables() {
+                    return {
+                        follower_id: this.current_id.uid
+                    }
                 }
             },
             result ({ data }) {
