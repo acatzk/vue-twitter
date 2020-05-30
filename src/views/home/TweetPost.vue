@@ -5,14 +5,16 @@
    >
 
     <v-list-item>
-        <v-list-item-avatar color="grey" v-for="(user, index) in users" :key="index">
+        <v-list-item-avatar
+            style="position: relative; bottom: 20px;"
+            color="grey"
+            v-for="(user, index) in users" :key="index"
+        >
             <v-img
                :src="userProfile(user)"
             ></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
-            <v-row>
-                <v-col cols="9">
                 <v-textarea
                     class="title textarea"
                     color="grey"
@@ -24,22 +26,18 @@
                     v-model="tweet"
                 >
             </v-textarea>
-                </v-col>
-                    <v-col cols="3">
-                        <v-btn 
-                            dark 
-                            rounded 
-                            class="blue"
-                            small
-                            :loading="loading"
-                            text
-                            :disabled="tweet == ''"
-                            @click="postUser"
-                        >
-                        Tweet
-                        </v-btn> 
-                </v-col>
-            </v-row>
+              <v-btn 
+                    dark 
+                    rounded 
+                    class="blue"
+                    small
+                    :loading="loading"
+                    text
+                    :disabled="tweet == ''"
+                    @click="postUser"
+                >
+                Tweet
+                </v-btn> 
 
         </v-list-item-content>
     </v-list-item>
