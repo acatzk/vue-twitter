@@ -24,6 +24,16 @@
         ></v-text-field>
     </v-card-text>
     <v-divider></v-divider>
-    
+    <list-chat-users />
   </v-card>
 </template>
+
+<script>
+export default {
+    name: 'Messages',
+
+    components: {
+        ListChatUsers: () => import('./ListChatUsers')
+    }
+}
+</script>
