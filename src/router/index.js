@@ -14,10 +14,6 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: '', 
-        component: () => import('@/views/home/UserPosts.vue')
-      },
-      {
         path: 'explore',
         name: 'explore',
         component: () => import('@/views/explore/Explore.vue')
