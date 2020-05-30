@@ -24,6 +24,10 @@ const routes = [
         path: 'messages',
         component: () => import('@/views/messages/Messages.vue')
       },
+      { 
+        path: 'messages/:id',
+        component: () => import('@/views/messages/ChatUser.vue')
+      },
       {
         path: 'bookmarks',
         component: () => import('@/views/bookmarks/Bookmarks.vue')
