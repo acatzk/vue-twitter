@@ -3,10 +3,6 @@
         <div class="text-center" v-if="$apollo.loading">
             <spinner />
         </div>
-        <!-- <v-card-actions
-            v-else
-            v-for="(user, index) in users" :key="index"
-        > -->
         <div  v-for="(user, index) in users" :key="index">
             <v-list-item link :to="`/messages/${user.user.id}`">
                 <v-list-item-avatar>
@@ -24,7 +20,6 @@
             </v-list-item>
             <v-divider></v-divider>
         </div>
-        <!-- </v-card-actions> -->
     </div>
 </template>
 
