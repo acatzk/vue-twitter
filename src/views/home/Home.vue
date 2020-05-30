@@ -11,7 +11,8 @@
 
            <v-col cols="12" md="6">
               <tweet-post v-if="this.$route.path == '/'" />  <!--  Add Posts components -->
-             <router-view /> <!--  Dynamic content -->
+              <user-posts v-if="this.$route.path == '/'"/>
+              <router-view v-else/> <!--  Dynamic content -->
            </v-col>
 
            <!-- SideNews -->
@@ -35,7 +36,8 @@ export default {
     SideNews: () => import('@/components/SideNews'),
     SideBar: () => import('@/components/Sidebar'),
     TweetPost: () => import('./TweetPost'),
-    SideBarIcon: () => import('@/components/SidebarIcon')
+    SideBarIcon: () => import('@/components/SidebarIcon'),
+    UserPosts: () => import('./UserPosts')
   }
 }
 </script>
