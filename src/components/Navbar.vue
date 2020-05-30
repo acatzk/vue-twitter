@@ -4,7 +4,7 @@
 
       <v-app-bar-nav-icon  @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       
-      <v-toolbar-title>
+      <v-toolbar-title class="hidden-sm-and-down">
         <!-- Twitter -->
         <v-btn icon>
             <v-icon>mdi-twitter</v-icon>
@@ -14,7 +14,6 @@
       <v-menu offset-y>
             <template v-slot:activator="{ on }">
                 <v-text-field
-                    class="ml-4"
                     v-on="on"
                     solo-inverted
                     flat
