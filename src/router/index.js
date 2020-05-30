@@ -9,50 +9,41 @@ import '../../node_modules/nprogress/nprogress.css';
 const routes = [
   {
     path: '/',
-    name: 'home',
     component: () => import('@/views/home/Home.vue'),
     meta: { requiresAuth: true },
     children: [
       {
         path: 'explore',
-        name: 'explore',
         component: () => import('@/views/explore/Explore.vue')
       },
       {
         path: 'notifications',
-        name: 'notifications',
         component: () => import('@/views/notifications/Notifications.vue')
       },
       {
         path: 'messages',
-        name: 'messages',
         component: () => import('@/views/messages/Messages.vue')
       },
       {
         path: 'bookmarks',
-        name: 'bookmarks',
         component: () => import('@/views/bookmarks/Bookmarks.vue')
       },
       {
         path: 'profile/:id',
-        name: 'profile',
         component: () => import('@/views/profile/Profile.vue')
       },
       {
         path: 'post/:id',
-        name: 'post',
         component: () => import('@/views/posts/UserPost.vue')
       },
       {
         path: 'logout',
-        name: 'logout',
         component: () => import('@/views/Logout.vue')
       }
     ]
   },
   {
     path: '/login',
-    name: 'login',
     component: () => import('@/views/Login.vue')
   }
 ];
