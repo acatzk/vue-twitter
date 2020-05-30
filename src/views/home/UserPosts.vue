@@ -66,7 +66,7 @@
                                     </v-list-item-content>
                                 </v-list-item>
 
-                                <v-list-item :to="`/profile/${post.user.id}`">
+                                <v-list-item :to="`/post/${post.id}`">
                                     <v-list-item-icon>
                                         <v-icon>photo_album</v-icon>
                                     </v-list-item-icon>
