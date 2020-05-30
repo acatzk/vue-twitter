@@ -8,7 +8,7 @@
             v-for="(user, index) in users" :key="index"
         > -->
         <div  v-for="(user, index) in users" :key="index">
-            <v-list-item link>
+            <v-list-item link :to="`/messages/${user.user.id}`">
                 <v-list-item-avatar>
                     <img :src="userProfile(user.user)">
                 </v-list-item-avatar>
