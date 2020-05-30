@@ -83,6 +83,7 @@ router.beforeEach((to, from, next) => {
 
 router.beforeResolve((to, from, next) => {
   // If this isn't an initial page load.
+  NProgress.configure({ easing: 'ease', speed: 2000, showSpinner: false })
   if (to.name) {
     NProgress.start()
   }
