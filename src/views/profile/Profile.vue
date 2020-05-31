@@ -59,7 +59,7 @@
                     <v-icon dark>more_horiz</v-icon>
                 </v-btn>
 
-                <v-btn class="ml-3" fab dark small outlined color="primary">
+                <v-btn class="ml-3" fab dark small outlined color="primary" router :to="`/messages/${user.id}`">
                     <v-icon dark>mail_outline</v-icon>
                 </v-btn>
 
