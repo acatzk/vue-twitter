@@ -158,6 +158,36 @@ export default {
                     id: this.chat_user_id ? this.$route.params.id : this.chat_user_id
                 }
             },
+            subscribeToMore: {
+                document: gql`
+                    subscription getUserProfile($id: String!) {
+                        users(where: {id: {_eq: $id}}) {
+                            id
+                            firstname
+                            lastname
+                            username
+                            profile {
+                                id
+                                avatarUrl
+                            }
+                        }
+                    }
+                `,
+                updateQuery(previousResult, { subscriptionData }) {
+                    if (previousResult) {
+                        return {
+                            users: [
+                                ...subscriptionData.data.users
+                            ]
+                        }
+                    }
+                },  
+                variables() {
+                    return {
+                        id: this.chat_user_id ? this.$route.params.id : this.chat_user_id
+                    }
+                }
+            },
             result ({ data }) {
                 this.users = data.users
             }
