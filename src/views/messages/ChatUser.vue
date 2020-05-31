@@ -45,37 +45,47 @@
         <spinner />
     </div>
     <v-card-text v-else color="blue darken-1" style="height: 65vh;" class="overflow-y-auto">
+        <div v-for="(u, i) in users" :key="i">
+            <img :src="userProfile(u)" 
+                style="
+                    height: 60vh; 
+                    width: 95%; 
+                    background-size: cover; 
+                    position: absolute;
+                    -webkit-filter: blur(3px);  
+                    filter: blur(3px);
+                    opacity: 0.5"
+            >
+        </div>
         <div class="them">
-
-            <div class="row mt-2">
-                <v-list-item-avatar v-for="(u, i) in users" :key="i" style="width: 30px; height: 30px;">
-                    <img :src="userProfile(u)">
-                </v-list-item-avatar>
-                <v-card-text class="user-say mt-2"
-                    style="max-width: 300px; 
-                            border-radius: 20px; 
-                            color: #000; 
-                            background-color: #eee; 
-                            display: inline-block; 
-                            position: relative; 
-                            right: 10px;"
-                >
-                    Lorem ipsum dolor sit amet, consectetur
-                </v-card-text>
-            </div>
-
-            <div class="row float-right">
-                <v-card-text class="user-say mt-2 float-left primary"
-                    style="max-width: 300px; 
-                            border-radius: 20px; 
-                            color: #fff; 
-                            background-color: #eee; 
-                            display: inline-block; 
-                            position: relative; 
-                            right: 10px;"
-                >
-                    Lorem ipsum dolor sit amet, consectetur
-                </v-card-text>
+            <div>
+                <div v-for="(chat, index) in chats" :key="index">
+                    <v-card-text 
+                        class="mt-2 float-right primary"
+                        style="max-width: 300px; 
+                                border-radius: 20px; 
+                                color: #fff; 
+                                background-color: #eee; 
+                                display: inline-block; 
+                                position: relative; 
+                                right: 10px;"
+                    >
+                        {{ chat.message }}
+                    </v-card-text>
+                     <!-- <v-card-text 
+                        v-else
+                        class="mt-2 float-left"
+                        style="max-width: 300px; 
+                                border-radius: 20px; 
+                                color: #000; 
+                                background-color: #eee; 
+                                display: inline-block; 
+                                position: relative; 
+                                left: 10px;"
+                    >
+                        {{ chat.message }}
+                    </v-card-text> -->
+                </div>
             </div>
             
         </div>
@@ -99,8 +109,11 @@
             v-model="chat"
             label="Start a new message"
             autocomplete="off"
+            :loading="loading"
+            :disabled="loading"
+            @keyup.enter="sendMessage"
         ></v-text-field>
-        <v-btn icon color="blue darken-1" :disabled="chat === ''">
+        <v-btn icon color="blue darken-1" :disabled="chat === '' || loading" @click="sendMessage">
             <v-icon>send</v-icon>
         </v-btn>
     </v-card-actions>
@@ -123,8 +136,10 @@ export default {
     data () {
         return {
             chat: '',
+            chats: [],
             chat_user_id: fb.auth().currentUser,
-            users: []
+            users: [],
+            loading: false
         }
     },
 
@@ -140,6 +155,30 @@ export default {
                 return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
             }
         },
+        sendMessage() {
+            this.loading = true
+            this.$apollo.mutate({
+                mutation: gql`
+                    mutation ($my_id: String!, $there_id: String!, $message: String!) {
+                        insert_chats(objects: [{my_id: $my_id, there_id: $there_id, message: $message}]) {
+                            affected_rows
+                            returning {
+                                id
+                                message
+                            }
+                        }
+                    }  
+                `,
+                variables: {
+                    my_id: this.chat_user_id.uid,
+                    there_id: this.$route.params.id,
+                    message: this.chat
+                }
+            }).then(() => {
+                this.chat = ''
+                this.loading = false
+            }).catch(error => console.error(error))
+        }
     },
 
     apollo: {
@@ -195,6 +234,53 @@ export default {
             },
             result ({ data }) {
                 this.users = data.users
+            }
+        },
+
+        chats: {
+            query: gql`
+                query ($my_id: String!, $there_id: String!) {
+                    chats(where: {my_id: {_eq: $my_id}, there_id: {_eq: $there_id}}) {
+                        id
+                        message
+                        created_at
+                    }
+                }
+            `,
+            variables() {
+                return {
+                    my_id: this.chat_user_id.uid,
+                    there_id: this.$route.params.id,
+                }
+            },
+            subscribeToMore: {
+                document: gql`
+                    subscription ($my_id: String!, $there_id: String!) {
+                        chats(where: {my_id: {_eq: $my_id}, there_id: {_eq: $there_id}}) {
+                            id
+                            message
+                            created_at
+                        }
+                    }
+                `,
+                updateQuery(previousResult, { subscriptionData }) {
+                    if (previousResult) {
+                        return {
+                            chats: [
+                                ...subscriptionData.data.chats
+                            ]
+                        }
+                    }
+                },  
+                variables() {
+                    return {
+                        my_id: this.chat_user_id.uid,
+                        there_id: this.$route.params.id,
+                    }
+                }
+            },
+            result ({ data }) {
+                this.chats = data.chats
             }
         }
     }
