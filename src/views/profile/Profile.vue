@@ -327,6 +327,7 @@ import { UPDATE_USER_FULLNAME_MUTATION, UPDATE_USER_PROFILE_MUTATION } from '@/g
 import { FOLLOW_USER_MUTATION, DELETE_FOLLOW_USER_MUTATION } from '@/graphql/mutations/followUser'
 import { GET_FOLLOWER_STATUS } from '@/graphql/queries/getFollowStatus'
 import { GET_USER_FOLLOWING, GET_ALL_FOLLOWING_USER } from '@/graphql/queries/getUserFollowing'
+import gql from 'graphql-tag'
 
 export default {
     name: 'PostCard',
@@ -353,7 +354,8 @@ export default {
                 { tab: 'Tweets & replies', content: 'Tab 2 Content' },
                 { tab: 'Media', content: 'Tab 3 Content' },
                 { tab: 'Likes', content: 'Tab 3 Content' },
-            ]
+            ],
+            users: []
         }
     },
 
@@ -495,6 +497,51 @@ export default {
                 return {
                     id: this.user_id ? this.$route.params.id : this.user_id
                 }
+            },
+            subscribeToMore: {
+                document: gql`
+                    subscription getUserProfile($id: String!) {
+                        users(where: {id: {_eq: $id}}) {
+                                id
+                                firstname
+                                lastname
+                                email
+                                username
+                                created_at
+                                profile {
+                                id
+                                user_id
+                                bio
+                                avatarUrl
+                                website
+                                birthdate
+                                location
+                            }
+                            followers: follows_aggregate {
+                                aggregate {
+                                        count
+                                    }
+                                }
+                            }
+                        }
+                `,
+                variables() {
+                    return {
+                        id: this.user_id ? this.$route.params.id : this.user_id
+                    }
+                },
+                updateQuery(previousResult, { subscriptionData }) {
+                    if (previousResult) {
+                        return {
+                            users: [
+                                ...subscriptionData.data.users
+                            ]
+                        }
+                    }
+                },
+            },
+            result ({ data }) {
+                this.users = data.users
             }
         },
 
