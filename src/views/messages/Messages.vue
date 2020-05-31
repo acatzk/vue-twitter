@@ -12,11 +12,13 @@
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text color="blue darken-1">
-        <v-text-field
-            solo-inverted
+         <v-text-field
+            solo
             rounded
             flat
             dense
+            outlined
+            color="blue darken-1"
             hide-details
             label="Search for people and groups"
             prepend-inner-icon="search"
