@@ -46,6 +46,7 @@
     </div>
     <v-card-text v-else color="blue darken-1" style="height: 65vh;" class="overflow-y-auto">
         <div class="them">
+
             <div class="row mt-2">
                 <v-list-item-avatar v-for="(u, i) in users" :key="i" style="width: 30px; height: 30px;">
                     <img :src="userProfile(u)">
@@ -62,19 +63,21 @@
                     Lorem ipsum dolor sit amet, consectetur
                 </v-card-text>
             </div>
-        </div>
-        <div class="me">
+
             <div class="row float-right">
-                <v-card-text class="primary mt-2 mr-2"
-                    style="
-                        max-width: 300px; 
-                        border-radius: 20px; 
-                        color: #fff !important;
-                    "
+                <v-card-text class="user-say mt-2 float-left primary"
+                    style="max-width: 300px; 
+                            border-radius: 20px; 
+                            color: #fff; 
+                            background-color: #eee; 
+                            display: inline-block; 
+                            position: relative; 
+                            right: 10px;"
                 >
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium quis officia ab modi molestias
+                    Lorem ipsum dolor sit amet, consectetur
                 </v-card-text>
             </div>
+            
         </div>
     </v-card-text>
     <v-divider></v-divider>
@@ -86,10 +89,12 @@
             <v-icon>camera_enhance</v-icon>
         </v-btn>
         <v-text-field
-            solo-inverted
+            solo
             rounded
             flat
             dense
+            outlined
+            color="blue darken-1"
             hide-details
             v-model="chat"
             label="Start a new message"
