@@ -37,17 +37,45 @@
         </v-row>
     </v-card-title>
     <v-divider></v-divider>
-    <v-card-text color="blue darken-1" style="height: 65vh;" class="overflow-y-auto">
-            <v-radio label="Bahamas, The" value="bahamas"></v-radio>
-            <v-radio label="Bahrain" value="bahrain"></v-radio>
-            <v-radio label="Bangladesh" value="bangladesh"></v-radio>
-            <v-radio label="Barbados" value="barbados"></v-radio>
-            <v-radio label="Belarus" value="belarus"></v-radio>
-            <v-radio label="Belgium" value="belgium"></v-radio>
-            <v-radio label="Belize" value="belize"></v-radio>
-            <v-radio label="Benin" value="benin"></v-radio>
-            <v-radio label="Bhutan" value="bhutan"></v-radio>
-            <v-radio label="Bolivia" value="bolivia"></v-radio>
+    <div 
+        class="text-center"
+        style="height: 65vh;"
+        v-if="$apollo.loading"
+    >
+        <spinner />
+    </div>
+    <v-card-text v-else color="blue darken-1" style="height: 65vh;" class="overflow-y-auto">
+        <div class="them">
+            <div class="row mt-2">
+                <v-list-item-avatar v-for="(u, i) in users" :key="i" style="width: 30px; height: 30px;">
+                    <img :src="userProfile(u)">
+                </v-list-item-avatar>
+                <v-card-text class="user-say mt-2"
+                    style="max-width: 300px; 
+                            border-radius: 20px; 
+                            color: #000; 
+                            background-color: #eee; 
+                            display: inline-block; 
+                            position: relative; 
+                            right: 10px;"
+                >
+                    Lorem ipsum dolor sit amet, consectetur
+                </v-card-text>
+            </div>
+        </div>
+        <div class="me">
+            <div class="row float-right">
+                <v-card-text class="primary mt-2 mr-2"
+                    style="
+                        max-width: 300px; 
+                        border-radius: 20px; 
+                        color: #fff !important;
+                    "
+                >
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium quis officia ab modi molestias
+                </v-card-text>
+            </div>
+        </div>
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
@@ -78,7 +106,7 @@
 
 import { fb } from '@/firebase'
 
-import { GET_USER_PROFILE_QUERY } from '@/graphql/queries/getUserProfile'
+import gql from 'graphql-tag'
 
 export default {
     name: 'ChatUser',
@@ -95,9 +123,36 @@ export default {
         }
     },
 
+    methods: {
+        userProfile(user) {
+            if (user.profile) {
+                if (user.profile.avatarUrl !== '') {
+                    return user.profile.avatarUrl
+                } else {
+                    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+                }
+            } else {
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSycaZi2N67EHasjG_KqowjGtP8WuKNwvlr7GeMUM2fPixnVch_&usqp=CAU'
+            }
+        },
+    },
+
     apollo: {
         users: {
-            query: GET_USER_PROFILE_QUERY,
+            query: gql`
+                query getUserProfile($id: String!) {
+                    users(where: {id: {_eq: $id}}) {
+                        id
+                        firstname
+                        lastname
+                        username
+                        profile {
+                            id
+                            avatarUrl
+                        }
+                    }
+                }
+            `,
             variables() {
                 return {
                     id: this.chat_user_id ? this.$route.params.id : this.chat_user_id
