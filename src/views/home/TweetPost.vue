@@ -36,7 +36,7 @@
                 <v-btn 
                     dark 
                     rounded 
-                    style="width: 80%;"
+                    style="width: 60%;"
                     outlined
                     class="primary"
                     small
