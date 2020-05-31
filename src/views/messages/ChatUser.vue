@@ -13,13 +13,18 @@
             >
                 <v-icon>keyboard_arrow_left</v-icon>
             </v-btn>
-            <div style="position: absolute; margin-left: 55px;">
+            <spinner v-if="$apollo.loading" style="position: absolute; margin-left: 55px;" />
+            <div 
+                v-else
+                style="position: absolute; margin-left: 55px;"
+                v-for="(user, index) in users" :key="index"
+            >
                <v-list-item-content class="d-flex justify-space-between">
-                    <v-list-item-title class="font-weight-black" style="position: relative; bottom: 10px;">
-                        JOSHUA GALIT
+                    <v-list-item-title class="font-weight-black text-uppercase" style="position: relative; bottom: 10px;">
+                        {{ `${user.firstname} ${user.lastname}` }}
                     </v-list-item-title>
-                    <v-list-item-subtitle class="font-weight-light" style="position: relative; bottom: 10px;">
-                        @angryboy
+                    <v-list-item-subtitle class="font-weight-light text-lowercase" style="position: relative; bottom: 10px;">
+                        @{{ `${user.username}` }}
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </div>
@@ -32,8 +37,7 @@
         </v-row>
     </v-card-title>
     <v-divider></v-divider>
-    <v-card-text color="blue darken-1" style="height: 70vh;" class="overflow-y-auto">
-          <v-radio-group column>
+    <v-card-text color="blue darken-1" style="height: 65vh;" class="overflow-y-auto">
             <v-radio label="Bahamas, The" value="bahamas"></v-radio>
             <v-radio label="Bahrain" value="bahrain"></v-radio>
             <v-radio label="Bangladesh" value="bangladesh"></v-radio>
@@ -44,15 +48,6 @@
             <v-radio label="Benin" value="benin"></v-radio>
             <v-radio label="Bhutan" value="bhutan"></v-radio>
             <v-radio label="Bolivia" value="bolivia"></v-radio>
-            <v-radio label="Bosnia and Herzegovina" value="bosnia"></v-radio>
-            <v-radio label="Botswana" value="botswana"></v-radio>
-            <v-radio label="Brazil" value="brazil"></v-radio>
-            <v-radio label="Brunei" value="brunei"></v-radio>
-            <v-radio label="Bulgaria" value="bulgaria"></v-radio>
-            <v-radio label="Burkina Faso" value="burkina"></v-radio>
-            <v-radio label="Burma" value="burma"></v-radio>
-            <v-radio label="Burundi" value="burundi"></v-radio>
-          </v-radio-group>
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
@@ -80,13 +75,40 @@
 </template>
 
 <script>
+
+import { fb } from '@/firebase'
+
+import { GET_USER_PROFILE_QUERY } from '@/graphql/queries/getUserProfile'
+
 export default {
     name: 'ChatUser',
 
+    components: {
+        Spinner: () => import('@/components/Spinner')
+    },
+
     data () {
         return {
-            chat: ''
+            chat: '',
+            chat_user_id: fb.auth().currentUser,
+            users: []
+        }
+    },
+
+    apollo: {
+        users: {
+            query: GET_USER_PROFILE_QUERY,
+            variables() {
+                return {
+                    id: this.chat_user_id ? this.$route.params.id : this.chat_user_id
+                }
+            },
+            result ({ data }) {
+                this.users = data.users
+            }
         }
     }
+
+
 }
 </script>
