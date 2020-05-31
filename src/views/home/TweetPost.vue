@@ -26,18 +26,27 @@
                     v-model="tweet"
                 >
             </v-textarea>
-              <v-btn 
+            <div class="btn-group">
+                <v-btn icon color="primary">
+                    <v-icon>add_photo_alternate</v-icon>
+                </v-btn>
+                <v-btn icon color="primary">
+                    <v-icon>camera_enhance</v-icon>
+                </v-btn>
+                <v-btn 
                     dark 
                     rounded 
-                    class="blue"
+                    style="width: 80%;"
+                    outlined
+                    class="primary"
                     small
                     :loading="loading"
-                    text
                     :disabled="tweet == ''"
                     @click="postUser"
-                >
-                Tweet
-                </v-btn> 
+                    >
+                    Tweet
+                    </v-btn> 
+            </div>
 
         </v-list-item-content>
     </v-list-item>
