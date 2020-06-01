@@ -11,7 +11,7 @@
 
                 <v-list-item-content class="d-flex justify-space-between">
                     <v-list-item-title>
-                        {{ user.user.firstname + " " + user.user.lastname }}
+                        {{ capitalize(`${user.user.firstname} ${user.user.lastname}`) }}
                     </v-list-item-title>
                     <v-list-item-subtitle>
                         @{{ user.user.username }}
@@ -36,6 +36,10 @@ export default {
     },
 
     methods: {
+        capitalize(s) {
+            if (typeof s !== 'string') return ''
+            return s.charAt(0).toUpperCase() + s.slice(1)
+        },
         userProfile(user) {
             if (user.profile) {
                 if (user.profile.avatarUrl !== '') {
