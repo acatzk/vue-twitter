@@ -5,6 +5,7 @@ query getAllPosts {
   posts(limit: 20, offset: 0, order_by: {created_at: desc}) {
     id
     imageUrl
+    videoUrl
     caption
     user_id
     created_at
