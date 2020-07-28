@@ -57,6 +57,12 @@
                 ></v-img>
             </div>
 
+        
+            <div v-if="post.videoUrl">
+                <vue-video-player 
+                />
+            </div>
+
             <v-card-text :class="!post.imageUrl ? 'title' : 'subtitle-2'">
                 <div :class="post.caption.length <= 100 ? 'title' : 'subtitle-2'">
                      {{ post.caption }}
@@ -179,8 +185,9 @@ export default {
     },
 
     components: {
-        Spinner: () => import('@/components/Spinner.vue'),
-        UserComments: () => import('./UserComments')
+        Spinner: () => import('@/components/Spinner'),
+        UserComments: () => import('./UserComments'),
+        VueVideoPlayer: () => import('@/components/VueVideoPlayer')
     },
 
     apollo: {

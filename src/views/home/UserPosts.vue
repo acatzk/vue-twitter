@@ -120,23 +120,28 @@
 
             <!-- Posts -->
 
-            <router-link 
-                :to="`/post/${post.id}`" 
-                style="text-decoration: none; color: grey;">
-                
-                <div v-if="post.imageUrl">
-                    <v-img
-                        :src="post.imageUrl"
-                    ></v-img>
+   
+            <div v-if="post.imageUrl">
+                <v-img
+                    :src="post.imageUrl"
+                ></v-img>
+            </div>
+
+            <!-- <div v-if="post.videoUrl"> -->
+                <!-- <vue-video-player 
+                /> -->
+                <!-- <iframe width="100%" height="315"
+                    src="https://www.facebook.com/itsbadvibes/videos/515391345902237/">
+                </iframe> -->
+            <!-- </div> -->
+            
+
+
+            <v-card-text :class="!post.imageUrl ? 'title' : 'subtitle-2'">
+                <div :class="post.caption.length <= 100 ? 'title' : 'subtitle-2'">
+                    {{ post.caption }}
                 </div>
-
-
-                <v-card-text :class="!post.imageUrl ? 'title' : 'subtitle-2'">
-                    <div :class="post.caption.length <= 100 ? 'title' : 'subtitle-2'">
-                        {{ post.caption }}
-                    </div>
-                </v-card-text>
-            </router-link>
+            </v-card-text>
 
             <!-- End Posts -->
 
@@ -170,7 +175,6 @@ import { GET_ALL_POSTS } from '@/graphql/queries/getAllPosts' // query
 import { DELETE_POST_MUTATION } from '@/graphql/mutations/deletePost' // mutation
 import { GET_ALL_POSTS_SUBSCRIPTION } from '@/graphql/subscriptions/getAllPosts' // subscription
 // import { GET_USERS_FOLLOWING_POSTS_SUBSCRIPTION } from '@/graphql/queries/getUsersFollowingPosts'
-import Spinner from '@/components/Spinner.vue'
 import { fb } from '@/firebase'
 
 export default {
@@ -190,7 +194,8 @@ export default {
     },
 
     components: {
-        Spinner
+        Spinner: () => import('@/components/Spinner'),
+        VueVideoPlayer: () => import('@/components/VueVideoPlayer')
     },
 
     apollo: {
