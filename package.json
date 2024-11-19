@@ -17,7 +17,7 @@
     "bufferutil": "^4.0.1",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
-    "firebase": "^4.8.1",
+    "firebase": "^10.9.0",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "material-design-icons-iconfont": "^5.0.1",
